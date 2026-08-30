@@ -1,0 +1,243 @@
+[
+  {
+    "id": "d12aa1ea-4c5f-4c27-969d-51589ec33828",
+    "slug": "apartament-2-1-me-pamje-nga-deti-vlore",
+    "title": "Apartament 2+1 me pamje nga deti, Vlorë",
+    "description": "Apartament i mobiluar plotësisht në Lungomare, kati 6 me ballkon 12 m² dhe pamje të drejtpërdrejtë nga deti. Ndërtesë e vitit 2019 me ashensor, parkim nëntokësor dhe siguri 24/7.",
+    "price": 145000,
+    "deal": "shitje",
+    "kind": "apartament",
+    "city": "Vlorë",
+    "address": "Rruga Murat Terbaçi, Lungomare",
+    "rooms": 3,
+    "baths": 2,
+    "area": 92,
+    "floor": 6,
+    "year": 2019,
+    "features": [
+      "Pamje deti",
+      "Ashensor",
+      "Parkim",
+      "Mobiluar",
+      "Ballkon"
+    ],
+    "images": [
+      "/images/prona-1.svg",
+      "/images/prona-5.svg",
+      "/images/prona-2.svg"
+    ],
+    "lat": 40.4483,
+    "lng": 19.4869,
+    "featured": true,
+    "createdAt": "2026-08-30T13:33:30.741Z"
+  },
+  {
+    "id": "d0e71c80-3763-40df-9ecd-2c2c51421b8e",
+    "slug": "apartament-1-1-ne-bllok-tirane",
+    "title": "Apartament 1+1 në Bllok, Tiranë",
+    "description": "Apartament i rinovuar në zemrën e Bllokut, ideal për çift ose investim me qira afatshkurtër. Ngrohje-ftohje me kondicionerë, kuzhinë e pajisur, kati 3 me ashensor.",
+    "price": 620,
+    "deal": "qira",
+    "kind": "apartament",
+    "city": "Tiranë",
+    "address": "Rruga Pjetër Bogdani",
+    "rooms": 2,
+    "baths": 1,
+    "area": 58,
+    "floor": 3,
+    "year": 2015,
+    "features": [
+      "Rinovuar",
+      "Ashensor",
+      "Mobiluar",
+      "Internet fiber"
+    ],
+    "images": [
+      "/images/prona-2.svg",
+      "/images/prona-6.svg"
+    ],
+    "lat": 41.3183,
+    "lng": 19.8187,
+    "featured": true,
+    "createdAt": "2026-08-30T01:33:30.741Z"
+  },
+  {
+    "id": "0bb1711a-4023-4ebb-9457-b85cbc79a56b",
+    "slug": "vile-3-kateshe-me-oborr-prishtine",
+    "title": "Vilë 3-katëshe me oborr, Prishtinë",
+    "description": "Vilë individuale në lagjen Arbëri, 320 m² sipërfaqe banimi dhe 450 m² oborr me kopsht. Garazh i dyfishtë, bodrum, sistem ngrohjeje me dysheme dhe panele solare.",
+    "price": 395000,
+    "deal": "shitje",
+    "kind": "vile",
+    "city": "Prishtinë",
+    "address": "Lagjja Arbëri, rr. Muharrem Fejza",
+    "rooms": 6,
+    "baths": 4,
+    "area": 320,
+    "floor": null,
+    "year": 2021,
+    "features": [
+      "Oborr",
+      "Garazh",
+      "Panele solare",
+      "Ngrohje nën dysheme"
+    ],
+    "images": [
+      "/images/prona-3.svg",
+      "/images/prona-7.svg",
+      "/images/prona-1.svg"
+    ],
+    "lat": 42.6489,
+    "lng": 21.1387,
+    "featured": true,
+    "createdAt": "2026-08-29T13:33:30.741Z"
+  },
+  {
+    "id": "56a5b4e5-4c0e-4d85-9ac2-cc7c39357bba",
+    "slug": "zyre-120-m-ne-kulle-biznesi-tirane",
+    "title": "Zyrë 120 m² në kullë biznesi, Tiranë",
+    "description": "Ambient zyre open-space në katin e 9-të të një kulle biznesi pranë Sheshit Skënderbej. Recepsion i përbashkët, 2 salla mbledhjeje, parkim për 3 automjete.",
+    "price": 1450,
+    "deal": "qira",
+    "kind": "zyre",
+    "city": "Tiranë",
+    "address": "Bulevardi Zogu I",
+    "rooms": 4,
+    "baths": 2,
+    "area": 120,
+    "floor": 9,
+    "year": 2018,
+    "features": [
+      "Open space",
+      "Parkim",
+      "Recepsion",
+      "Ashensor"
+    ],
+    "images": [
+      "/images/prona-4.svg",
+      "/images/prona-8.svg"
+    ],
+    "lat": 41.3317,
+    "lng": 19.8203,
+    "featured": false,
+    "createdAt": "2026-08-29T01:33:30.741Z"
+  },
+  {
+    "id": "60ef47eb-6290-40f3-8879-4e5b883c952b",
+    "slug": "shtepi-4-1-me-kopsht-shkoder",
+    "title": "Shtëpi 4+1 me kopsht, Shkodër",
+    "description": "Shtëpi private dy kate në zonën e Dobraçit, me kopsht 300 m², pemë frutore dhe puse artezian. E përshtatshme për familje të madhe ose bujtinë.",
+    "price": 128000,
+    "deal": "shitje",
+    "kind": "shtepi",
+    "city": "Shkodër",
+    "address": "Rruga e Dobraçit",
+    "rooms": 5,
+    "baths": 2,
+    "area": 180,
+    "floor": null,
+    "year": 2008,
+    "features": [
+      "Kopsht",
+      "Puse artezian",
+      "Verandë",
+      "Bodrum"
+    ],
+    "images": [
+      "/images/prona-5.svg",
+      "/images/prona-3.svg"
+    ],
+    "lat": 42.0693,
+    "lng": 19.5033,
+    "featured": false,
+    "createdAt": "2026-08-28T13:33:30.741Z"
+  },
+  {
+    "id": "a721fc9d-ac64-4caa-a9f5-441ed2195d32",
+    "slug": "lokal-85-m-ne-rruge-kryesore-durres",
+    "title": "Lokal 85 m² në rrugë kryesore, Durrës",
+    "description": "Lokal me vitrinë të gjerë 12 metra në rrugën Taulantia, pranë promenadës. Ideal për kafe-bar ose dyqan retail. Bashkë me tualet dhe magazinë 15 m².",
+    "price": 900,
+    "deal": "qira",
+    "kind": "lokal",
+    "city": "Durrës",
+    "address": "Rruga Taulantia",
+    "rooms": 2,
+    "baths": 1,
+    "area": 85,
+    "floor": 0,
+    "year": 2012,
+    "features": [
+      "Vitrinë e gjerë",
+      "Magazinë",
+      "Rrugë kryesore"
+    ],
+    "images": [
+      "/images/prona-6.svg",
+      "/images/prona-4.svg"
+    ],
+    "lat": 41.3126,
+    "lng": 19.4478,
+    "featured": false,
+    "createdAt": "2026-08-28T01:33:30.741Z"
+  },
+  {
+    "id": "ff3bc954-b34f-42be-aa9b-d139fd394250",
+    "slug": "truall-1200-m-per-ndertim-tirane-farke",
+    "title": "Truall 1200 m² për ndërtim, Tiranë (Farkë)",
+    "description": "Truall i rrafshtë me dokumentacion të plotë hipotekor, leje ndërtimi për 2 vila. Infrastrukturë e plotë: rrugë asfalt, ujë, energji, kanalizim.",
+    "price": 210000,
+    "deal": "shitje",
+    "kind": "truall",
+    "city": "Tiranë",
+    "address": "Farkë e Madhe",
+    "rooms": 0,
+    "baths": 0,
+    "area": 1200,
+    "floor": null,
+    "year": null,
+    "features": [
+      "Dokumentacion i plotë",
+      "Leje ndërtimi",
+      "Infrastrukturë"
+    ],
+    "images": [
+      "/images/prona-7.svg"
+    ],
+    "lat": 41.2967,
+    "lng": 19.8631,
+    "featured": false,
+    "createdAt": "2026-08-27T13:33:30.741Z"
+  },
+  {
+    "id": "e35d221d-4517-47ba-bbde-699e6e76b5d1",
+    "slug": "apartament-3-1-duplex-prishtine",
+    "title": "Apartament 3+1 duplex, Prishtinë",
+    "description": "Duplex në dy nivele te Bregu i Diellit, 145 m² neto me tarracë 30 m². Ndërtesë e re, dorëzim me çelës në dorë, mundësi financimi bankar.",
+    "price": 168000,
+    "deal": "shitje",
+    "kind": "apartament",
+    "city": "Prishtinë",
+    "address": "Bregu i Diellit, rr. Mark Isaku",
+    "rooms": 4,
+    "baths": 2,
+    "area": 145,
+    "floor": 7,
+    "year": 2024,
+    "features": [
+      "Duplex",
+      "Tarracë",
+      "Ndërtesë e re",
+      "Ashensor"
+    ],
+    "images": [
+      "/images/prona-8.svg",
+      "/images/prona-2.svg",
+      "/images/prona-6.svg"
+    ],
+    "lat": 42.6486,
+    "lng": 21.1782,
+    "featured": true,
+    "createdAt": "2026-08-27T01:33:30.741Z"
+  }
+]

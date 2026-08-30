@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "seed": "node scripts/seed.mjs",
+    "placeholders": "node scripts/generate-placeholders.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

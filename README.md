@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Domus Imobiliare — web për agjenci imobiliare
 
-## Getting Started
+Next.js 15 (App Router) + TypeScript + Tailwind. Listime pronash me filtra, faqe detaji me galeri e hartë, formular kërkesash dhe panel administrimi.
 
-First, run the development server:
+## Nisja lokale
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local
+npm run seed          # gjeneron data/properties.json me 8 prona shembull
+npm run dev           # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Paneli: `http://localhost:3000/admin` — fjalëkalimi merret nga `ADMIN_PASSWORD` (default `admin123`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Burimi i të dhënave
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Aplikacioni ka një shtresë të vetme `PropertyRepository` me dy implementime dhe zgjedh vetë:
 
-## Learn More
+| Kushti | Implementimi |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` + çelës i pranishëm | `supabase` (Postgres REST) |
+| ndryshe | `local` (JSON në `data/`) |
 
-To learn more about Next.js, take a look at the following resources:
+Kalimi në Supabase:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Krijo projekt në Supabase dhe ekzekuto `supabase/schema.sql` në SQL Editor.
+2. Vendos `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` dhe `SUPABASE_SERVICE_ROLE_KEY` në `.env.local` (dhe në Vercel).
+3. Ristarto serverin — paneli tregon burimin aktiv.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Shkrimi (shto/edito/fshi) kryhet vetëm server-side me service role key; RLS lejon lexim publik të listimeve dhe insert publik të kërkesave.
 
-## Deploy on Vercel
+## Fotot
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Në modalitetin lokal fotot janë placeholder SVG në `public/images` (`npm run placeholders`). Në Supabase ngarko fotot në bucket-in publik `property-images` dhe vendos URL-të e tyre në fushën "Fotot" të panelit.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Skriptet
+
+| Komanda | Përshkrimi |
+| --- | --- |
+| `npm run dev` | serveri i zhvillimit |
+| `npm run build` / `npm start` | build dhe run prodhimi |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run seed` | të dhëna shembull në `data/` |
+| `npm run placeholders` | rigjeneron SVG-të e fotove |
+
+## Deploy në Vercel
+
+Importo repon, shto variablat e mjedisit (`ADMIN_PASSWORD`, `NEXT_PUBLIC_SITE_*`, dhe Supabase kur është gati) dhe deploy. Në Vercel sistemi i skedarëve është read-only, ndaj për shkrim nga paneli duhet Supabase.

@@ -1,101 +1,121 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { PropertyCard } from "@/components/property-card";
+import { SearchFilters } from "@/components/search-filters";
+import { getRepository } from "@/lib/repo";
+import { site } from "@/lib/site";
+import { KINDS, KIND_LABELS } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+const steps = [
+  {
+    title: "Vlerësim i pronës",
+    text: "Vlerësojmë pronën tuaj sipas çmimeve reale të tregut në zonë, pa kosto paraprake.",
+  },
+  {
+    title: "Prezantim profesional",
+    text: "Fotografi, planimetri dhe përshkrim i detajuar që publikohen në portalin tonë dhe rrjetet sociale.",
+  },
+  {
+    title: "Negocim & dokumentacion",
+    text: "Ndjekim vizitat, negocimin e çmimit dhe të gjithë procesin notarial deri në nënshkrim.",
+  },
+];
+
+export default async function HomePage() {
+  const repo = getRepository();
+  const [featured, cities, all] = await Promise.all([
+    repo.featured(6),
+    repo.cities(),
+    repo.list(),
+  ]);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <section className="border-b border-slate-200 bg-gradient-to-br from-brand-dark via-brand to-teal-600 py-16 text-white">
+        <div className="container-page">
+          <p className="text-sm font-semibold uppercase tracking-widest text-brand-light">
+            {site.address}
+          </p>
+          <h1 className="mt-3 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            Gjeni shtëpinë e radhës me {site.name}
+          </h1>
+          <p className="mt-4 max-w-xl text-base text-teal-50">
+            {all.length} prona të verifikuara në {cities.length} qytete — apartamente,
+            vila, troje dhe ambiente biznesi.
+          </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <div className="mt-8">
+            <SearchFilters cities={cities} filters={{}} variant="hero" />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <section className="container-page py-12">
+        <div className="flex flex-wrap gap-3">
+          {KINDS.map((kind) => (
+            <Link
+              key={kind}
+              href={`/prona?kind=${kind}`}
+              className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-brand hover:text-brand"
+            >
+              {KIND_LABELS[kind]}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="container-page pb-12">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold">Prona të zgjedhura</h2>
+            <p className="mt-1 text-sm text-slate-600">
+              Ofertat më të kërkuara të javës nga portofoli i agjencisë.
+            </p>
+          </div>
+          <Link href="/prona" className="btn-outline shrink-0">
+            Shiko të gjitha
+          </Link>
+        </div>
+
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white py-12">
+        <div className="container-page">
+          <h2 className="text-2xl font-bold">Si punojmë</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            {steps.map((step, index) => (
+              <div key={step.title} className="card p-5">
+                <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-light text-sm font-bold text-brand-dark">
+                  {index + 1}
+                </span>
+                <h3 className="mt-4 text-base font-semibold">{step.title}</h3>
+                <p className="mt-2 text-sm text-slate-600">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="container-page py-12">
+        <div className="card flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-xl font-bold">Dëshironi të shitni ose jepni me qira?</h2>
+            <p className="mt-1 text-sm text-slate-600">
+              Dërgoni të dhënat e pronës dhe një agjent kthen përgjigje brenda 24 orëve.
+            </p>
+          </div>
+          <Link href="/kontakt" className="btn-primary shrink-0">
+            Lësho kërkesë
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
