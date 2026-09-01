@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #ffffff;
+  --foreground: #16181d;
 }
 
 body {
@@ -14,11 +14,23 @@ body {
 
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .display {
+    @apply font-serif font-normal leading-[1.15] tracking-tight;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-widest text-slate-500;
+  }
+
+  .rule {
+    @apply h-px w-full bg-line;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-[11px] font-semibold uppercase tracking-widest transition disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-primary {
@@ -26,18 +38,22 @@ body {
   }
 
   .btn-outline {
-    @apply btn border border-slate-300 bg-white text-slate-700 hover:border-brand hover:text-brand;
+    @apply btn border border-brand bg-transparent text-brand hover:bg-brand hover:text-white;
   }
 
   .field {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20;
+    @apply w-full border border-line bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand;
   }
 
   .label {
-    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500;
+    @apply mb-1.5 block text-[11px] font-semibold uppercase tracking-widest text-slate-500;
   }
 
   .card {
-    @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    @apply border border-line bg-white;
+  }
+
+  .link-underline {
+    @apply underline decoration-line decoration-1 underline-offset-4 hover:decoration-brand;
   }
 }

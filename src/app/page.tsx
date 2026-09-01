@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PropertyCard } from "@/components/property-card";
@@ -8,18 +9,18 @@ import { KINDS, KIND_LABELS } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-const steps = [
+const services = [
   {
     title: "Vlerësim i pronës",
-    text: "Vlerësojmë pronën tuaj sipas çmimeve reale të tregut në zonë, pa kosto paraprake.",
+    text: "Vlerësim diskret sipas çmimeve reale të tregut në zonë, pa kosto paraprake.",
   },
   {
     title: "Prezantim profesional",
-    text: "Fotografi, planimetri dhe përshkrim i detajuar që publikohen në portalin tonë dhe rrjetet sociale.",
+    text: "Fotografi, planimetri dhe përshkrim editorial i pronës për blerësin e duhur.",
   },
   {
     title: "Negocim & dokumentacion",
-    text: "Ndjekim vizitat, negocimin e çmimit dhe të gjithë procesin notarial deri në nënshkrim.",
+    text: "Ndjekim vizitat, negocimin e çmimit dhe procesin notarial deri në nënshkrim.",
   },
 ];
 
@@ -31,87 +32,107 @@ export default async function HomePage() {
     repo.list(),
   ]);
 
+  const hero = featured[0]?.images[0] ?? "/images/prona-1.svg";
+
   return (
     <>
-      <section className="border-b border-slate-200 bg-gradient-to-br from-brand-dark via-brand to-teal-600 py-16 text-white">
-        <div className="container-page">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-light">
+      <section className="relative isolate flex min-h-[78vh] items-end overflow-hidden">
+        <Image
+          src={hero}
+          alt={site.name}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/50 to-brand/25" />
+        <div className="container-page relative pb-16 pt-24 text-white">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/80">
             {site.address}
           </p>
-          <h1 className="mt-3 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            Gjeni shtëpinë e radhës me {site.name}
+          <h1 className="display mt-5 max-w-3xl text-4xl sm:text-5xl lg:text-6xl">
+            Prona të përzgjedhura, shërbim i personalizuar
           </h1>
-          <p className="mt-4 max-w-xl text-base text-teal-50">
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/85">
             {all.length} prona të verifikuara në {cities.length} qytete — apartamente,
-            vila, troje dhe ambiente biznesi.
+            vila, troje dhe ambiente biznesi, të përfaqësuara me kujdesin që meritojnë.
           </p>
-
-          <div className="mt-8">
-            <SearchFilters cities={cities} filters={{}} variant="hero" />
-          </div>
         </div>
       </section>
 
-      <section className="container-page py-12">
-        <div className="flex flex-wrap gap-3">
-          {KINDS.map((kind) => (
-            <Link
-              key={kind}
-              href={`/prona?kind=${kind}`}
-              className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-brand hover:text-brand"
-            >
-              {KIND_LABELS[kind]}
-            </Link>
-          ))}
+      <section className="border-b border-line bg-sand py-10">
+        <div className="container-page">
+          <SearchFilters cities={cities} filters={{}} variant="hero" />
         </div>
       </section>
 
-      <section className="container-page pb-12">
-        <div className="flex items-end justify-between gap-4">
+      <section className="container-page py-20">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-line pb-6">
           <div>
-            <h2 className="text-2xl font-bold">Prona të zgjedhura</h2>
-            <p className="mt-1 text-sm text-slate-600">
-              Ofertat më të kërkuara të javës nga portofoli i agjencisë.
-            </p>
+            <p className="eyebrow">Portofoli</p>
+            <h2 className="display mt-2 text-3xl sm:text-4xl">Prona të zgjedhura</h2>
           </div>
           <Link href="/prona" className="btn-outline shrink-0">
             Shiko të gjitha
           </Link>
         </div>
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((property) => (
             <PropertyCard key={property.id} property={property} />
           ))}
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white py-12">
+      <section className="border-y border-line bg-sand py-16">
         <div className="container-page">
-          <h2 className="text-2xl font-bold">Si punojmë</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            {steps.map((step, index) => (
-              <div key={step.title} className="card p-5">
-                <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-light text-sm font-bold text-brand-dark">
-                  {index + 1}
-                </span>
-                <h3 className="mt-4 text-base font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm text-slate-600">{step.text}</p>
-              </div>
+          <p className="eyebrow text-center">Kategori</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-x-10 gap-y-4 text-[11px] font-semibold uppercase tracking-widest text-brand">
+            {KINDS.map((kind) => (
+              <Link key={kind} href={`/prona?kind=${kind}`} className="hover:opacity-60">
+                {KIND_LABELS[kind]}
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="container-page py-12">
-        <div className="card flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-xl font-bold">Dëshironi të shitni ose jepni me qira?</h2>
-            <p className="mt-1 text-sm text-slate-600">
-              Dërgoni të dhënat e pronës dhe një agjent kthen përgjigje brenda 24 orëve.
-            </p>
-          </div>
-          <Link href="/kontakt" className="btn-primary shrink-0">
+      <section className="container-page py-20">
+        <p className="eyebrow">Shërbimet</p>
+        <h2 className="display mt-2 max-w-2xl text-3xl sm:text-4xl">
+          Përfaqësim i plotë, nga vlerësimi deri te nënshkrimi
+        </h2>
+        <div className="mt-12 grid gap-10 sm:grid-cols-3">
+          {services.map((service, index) => (
+            <div key={service.title} className="border-t border-line pt-6">
+              <span className="font-serif text-2xl text-brand">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="display mt-3 text-xl">{service.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {service.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-brand py-20 text-white">
+        <div className="container-page text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/70">
+            Pronarë
+          </p>
+          <h2 className="display mx-auto mt-4 max-w-2xl text-3xl sm:text-4xl">
+            Dëshironi të shitni ose jepni me qira pronën tuaj?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm text-white/80">
+            Dërgoni të dhënat dhe një agjent kthen përgjigje brenda 24 orëve, me
+            vlerësim dhe plan prezantimi për pronën.
+          </p>
+          <Link
+            href="/kontakt"
+            className="btn mt-8 border border-white bg-transparent text-white hover:bg-white hover:text-brand"
+          >
             Lësho kërkesë
           </Link>
         </div>

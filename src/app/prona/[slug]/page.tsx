@@ -51,8 +51,8 @@ export default async function PropertyPage({ params }: Props) {
       : null;
 
   return (
-    <div className="container-page py-8">
-      <nav className="text-sm text-slate-500">
+    <div className="container-page py-10">
+      <nav className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
         <Link href="/" className="hover:text-brand">
           Kryefaqja
         </Link>{" "}
@@ -63,55 +63,51 @@ export default async function PropertyPage({ params }: Props) {
         / <span className="text-slate-700">{property.title}</span>
       </nav>
 
-      <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_360px]">
-        <div className="space-y-6">
+      <div className="mt-6 grid gap-12 lg:grid-cols-[1fr_360px]">
+        <div className="space-y-8">
           <Gallery images={property.images} alt={property.title} />
 
           <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-brand-light px-2 py-1 text-xs font-semibold text-brand-dark">
-                {DEAL_LABELS[property.deal]}
-              </span>
-              <span className="text-xs text-slate-500">
-                Publikuar më {formatDate(property.createdAt)}
-              </span>
+            <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+              <span className="text-brand">{DEAL_LABELS[property.deal]}</span>
+              <span>Publikuar më {formatDate(property.createdAt)}</span>
             </div>
-            <h1 className="mt-3 text-2xl font-bold sm:text-3xl">{property.title}</h1>
-            <p className="mt-1 text-sm text-slate-600">
+            <h1 className="display mt-4 text-3xl sm:text-4xl">{property.title}</h1>
+            <p className="mt-2 text-sm text-slate-600">
               {property.address ? `${property.address}, ` : ""}
               {property.city}
             </p>
-            <p className="mt-3 text-3xl font-bold text-brand">
+            <p className="mt-4 font-serif text-4xl text-brand">
               {formatPrice(property.price, property.deal)}
             </p>
           </div>
 
-          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
+          <dl className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3">
             {specs.map((spec) => (
-              <div key={spec.label} className="bg-white p-4">
-                <dt className="text-xs uppercase tracking-wide text-slate-500">
+              <div key={spec.label} className="bg-white p-5">
+                <dt className="text-[11px] uppercase tracking-widest text-slate-500">
                   {spec.label}
                 </dt>
-                <dd className="mt-1 text-sm font-semibold">{spec.value}</dd>
+                <dd className="mt-1 font-serif text-xl">{spec.value}</dd>
               </div>
             ))}
           </dl>
 
           <section>
-            <h2 className="text-lg font-bold">Përshkrimi</h2>
-            <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700">
+            <h2 className="display text-2xl">Përshkrimi</h2>
+            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">
               {property.description}
             </p>
           </section>
 
           {property.features.length > 0 && (
             <section>
-              <h2 className="text-lg font-bold">Karakteristika</h2>
-              <ul className="mt-3 flex flex-wrap gap-2">
+              <h2 className="display text-2xl">Karakteristika</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {property.features.map((feature) => (
                   <li
                     key={feature}
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700"
+                    className="border border-line px-3 py-1.5 text-xs uppercase tracking-wider text-slate-600"
                   >
                     {feature}
                   </li>
@@ -122,22 +118,22 @@ export default async function PropertyPage({ params }: Props) {
 
           {mapSrc && (
             <section>
-              <h2 className="text-lg font-bold">Lokacioni</h2>
+              <h2 className="display text-2xl">Lokacioni</h2>
               <iframe
                 title={`Harta e ${property.title}`}
                 src={mapSrc}
                 loading="lazy"
-                className="mt-3 h-72 w-full rounded-xl border border-slate-200"
+                className="mt-4 h-80 w-full border border-line"
               />
             </section>
           )}
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:h-fit">
-          <div className="card space-y-4 p-5">
+          <div className="card space-y-4 p-6">
             <div>
-              <h2 className="text-base font-bold">Interesuar për këtë pronë?</h2>
-              <p className="mt-1 text-sm text-slate-600">
+              <h2 className="display text-xl">Interesuar për këtë pronë?</h2>
+              <p className="mt-2 text-sm text-slate-600">
                 Telefononi {site.phone} ose dërgoni kërkesën më poshtë.
               </p>
             </div>
@@ -150,9 +146,9 @@ export default async function PropertyPage({ params }: Props) {
       </div>
 
       {similar.length > 0 && (
-        <section className="mt-14">
-          <h2 className="text-xl font-bold">Prona të ngjashme në {property.city}</h2>
-          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="mt-20 border-t border-line pt-10">
+          <h2 className="display text-3xl">Prona të ngjashme në {property.city}</h2>
+          <div className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((item) => (
               <PropertyCard key={item.id} property={item} />
             ))}

@@ -16,8 +16,8 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
       method="get"
       className={
         isHero
-          ? "grid gap-3 rounded-xl bg-white p-4 shadow-lg sm:grid-cols-2 lg:grid-cols-5 lg:items-end"
-          : "card space-y-4 p-4"
+          ? "grid gap-4 border border-line bg-white p-6 sm:grid-cols-2 lg:grid-cols-5 lg:items-end"
+          : "card space-y-4 p-5"
       }
     >
       <div className={isHero ? "lg:col-span-2" : ""}>
