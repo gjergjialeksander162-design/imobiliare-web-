@@ -44,6 +44,9 @@ export default async function AdminPage() {
           <Link href="/admin/prona/e-re" className="btn-primary">
             Shto pronë
           </Link>
+          <Link href="/admin/crm" className="btn-outline">
+            CRM
+          </Link>
           <form action={logoutAction}>
             <button type="submit" className="btn-outline">
               Shkyçu
