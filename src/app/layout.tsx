@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AdminBar } from "@/components/admin-bar";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site";
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="sq">
       <body className="flex min-h-screen flex-col antialiased">
+        <AdminBar />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
