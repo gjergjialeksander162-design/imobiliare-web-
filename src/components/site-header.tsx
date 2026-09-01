@@ -12,39 +12,38 @@ const links = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand text-sm font-bold text-white">
-            DI
+    <header className="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur">
+      <div className="container-page flex items-center justify-between gap-6 py-5">
+        <a
+          href={`tel:${site.phone.replace(/\s/g, "")}`}
+          className="hidden w-40 text-[11px] font-semibold uppercase tracking-widest text-slate-500 hover:text-brand lg:block"
+        >
+          {site.phone}
+        </a>
+
+        <Link href="/" className="mx-auto text-center">
+          <span className="block font-serif text-2xl uppercase tracking-[0.28em] text-brand sm:text-3xl">
+            {site.name}
           </span>
-          <span className="text-base font-bold tracking-tight">{site.name}</span>
+          <span className="mt-1 block text-[10px] uppercase tracking-widest text-slate-500">
+            Real Estate
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-brand">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <a
-            href={`tel:${site.phone.replace(/\s/g, "")}`}
-            className="hidden text-sm font-semibold text-slate-700 sm:block"
-          >
-            {site.phone}
-          </a>
-          <Link href="/kontakt" className="btn-primary">
-            Lësho kërkesë
+        <div className="hidden w-40 justify-end lg:flex">
+          <Link href="/kontakt" className="btn-outline">
+            Kontakt
           </Link>
         </div>
       </div>
 
-      <nav className="container-page flex gap-4 overflow-x-auto pb-3 text-sm font-medium text-slate-600 lg:hidden">
+      <nav className="container-page flex justify-center gap-8 overflow-x-auto border-t border-line py-3 text-[11px] font-semibold uppercase tracking-widest text-slate-600">
         {links.map((link) => (
-          <Link key={link.href} href={link.href} className="whitespace-nowrap">
+          <Link
+            key={link.href}
+            href={link.href}
+            className="whitespace-nowrap hover:text-brand"
+          >
             {link.label}
           </Link>
         ))}

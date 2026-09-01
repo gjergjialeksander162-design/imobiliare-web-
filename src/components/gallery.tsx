@@ -34,7 +34,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
         type="button"
         onClick={() => setZoomed(true)}
         aria-label="Zmadho foton"
-        className="relative block aspect-[16/10] w-full cursor-zoom-in overflow-hidden rounded-xl bg-slate-100"
+        className="relative block aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-sand"
       >
         <Image
           src={list[active]}
@@ -44,7 +44,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
           sizes="(max-width: 1024px) 100vw, 66vw"
           className="object-cover"
         />
-        <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white">
+        <span className="absolute bottom-3 right-3 bg-black/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white">
           Kliko për të zmadhuar
         </span>
       </button>
@@ -58,7 +58,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
               onClick={() => setActive(index)}
               aria-label={`Foto ${index + 1}`}
               aria-current={index === active}
-              className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-lg border-2 ${
+              className={`relative h-20 w-28 shrink-0 overflow-hidden border-2 ${
                 index === active ? "border-brand" : "border-transparent"
               }`}
             >

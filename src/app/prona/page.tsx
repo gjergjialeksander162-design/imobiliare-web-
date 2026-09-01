@@ -33,20 +33,21 @@ export default async function PropertiesPage({
   ].filter(Boolean);
 
   return (
-    <div className="container-page py-10">
-      <h1 className="text-2xl font-bold sm:text-3xl">Prona</h1>
-      <p className="mt-2 text-sm text-slate-600">
+    <div className="container-page py-14">
+      <p className="eyebrow">Portofoli</p>
+      <h1 className="display mt-2 text-4xl sm:text-5xl">Prona</h1>
+      <p className="mt-3 text-sm text-slate-600">
         {properties.length} rezultate
         {activeLabels.length > 0 ? ` · ${activeLabels.join(" · ")}` : ""}
       </p>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[300px_1fr]">
+      <div className="mt-10 grid gap-12 lg:grid-cols-[300px_1fr]">
         <aside className="lg:sticky lg:top-24 lg:h-fit">
           <SearchFilters cities={cities} filters={filters} />
           {activeLabels.length > 0 && (
             <Link
               href="/prona"
-              className="mt-3 inline-block text-sm font-medium text-brand hover:underline"
+              className="mt-4 inline-block text-[11px] font-semibold uppercase tracking-widest text-brand hover:opacity-60"
             >
               Fshi filtrat
             </Link>
@@ -55,8 +56,8 @@ export default async function PropertiesPage({
 
         <section>
           {properties.length === 0 ? (
-            <div className="card p-10 text-center">
-              <p className="text-base font-semibold">Nuk u gjet asnjë pronë</p>
+            <div className="card p-12 text-center">
+              <p className="display text-2xl">Nuk u gjet asnjë pronë</p>
               <p className="mt-2 text-sm text-slate-600">
                 Provoni të zgjeroni kriteret e kërkimit ose kontaktoni agjencinë për
                 oferta që nuk publikohen online.
@@ -66,7 +67,7 @@ export default async function PropertiesPage({
               </Link>
             </div>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
               {properties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}

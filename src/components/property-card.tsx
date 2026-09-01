@@ -7,61 +7,39 @@ import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
 export function PropertyCard({ property }: { property: Property }) {
   const cover = property.images[0] ?? "/images/prona-1.svg";
 
+  const specs = [
+    `${formatNumber(property.area)} m²`,
+    property.rooms > 0 ? `${property.rooms} dhoma` : "",
+    property.baths > 0 ? `${property.baths} banjo` : "",
+  ].filter(Boolean);
+
   return (
-    <Link
-      href={`/prona/${property.slug}`}
-      className="card group overflow-hidden transition hover:-translate-y-0.5 hover:shadow-md"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+    <Link href={`/prona/${property.slug}`} className="group block">
+      <div className="relative aspect-[3/2] overflow-hidden bg-sand">
         <Image
           src={cover}
           alt={property.title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover transition group-hover:scale-105"
+          className="object-cover transition duration-700 group-hover:scale-[1.04]"
         />
-        <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2 py-1 text-xs font-semibold text-brand">
-          {DEAL_LABELS[property.deal]}
-        </span>
       </div>
 
-      <div className="space-y-3 p-4">
-        <div className="flex items-baseline justify-between gap-2">
-          <p className="text-lg font-bold text-brand">
-            {formatPrice(property.price, property.deal)}
-          </p>
-          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            {KIND_LABELS[property.kind]}
-          </span>
-        </div>
-
-        <h3 className="line-clamp-2 text-sm font-semibold leading-snug">
-          {property.title}
-        </h3>
-
-        <p className="text-xs text-slate-500">
-          {property.city}
-          {property.address ? ` · ${property.address}` : ""}
+      <div className="pt-5">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+          {DEAL_LABELS[property.deal]} · {KIND_LABELS[property.kind]}
         </p>
-
-        <dl className="flex flex-wrap gap-x-4 gap-y-1 border-t border-slate-100 pt-3 text-xs text-slate-600">
-          <div className="flex gap-1">
-            <dt className="text-slate-400">Sipërfaqe</dt>
-            <dd className="font-semibold">{formatNumber(property.area)} m²</dd>
-          </div>
-          {property.rooms > 0 && (
-            <div className="flex gap-1">
-              <dt className="text-slate-400">Dhoma</dt>
-              <dd className="font-semibold">{property.rooms}</dd>
-            </div>
-          )}
-          {property.baths > 0 && (
-            <div className="flex gap-1">
-              <dt className="text-slate-400">Banjo</dt>
-              <dd className="font-semibold">{property.baths}</dd>
-            </div>
-          )}
-        </dl>
+        <h3 className="display mt-2 text-xl group-hover:text-brand">{property.title}</h3>
+        <p className="mt-1 text-sm text-slate-600">
+          {property.address ? `${property.address}, ` : ""}
+          {property.city}
+        </p>
+        <p className="mt-3 font-serif text-2xl text-brand">
+          {formatPrice(property.price, property.deal)}
+        </p>
+        <p className="mt-3 border-t border-line pt-3 text-xs uppercase tracking-wider text-slate-500">
+          {specs.join(" · ")}
+        </p>
       </div>
     </Link>
   );

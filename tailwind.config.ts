@@ -6,10 +6,20 @@ export default {
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#0f766e",
-          dark: "#115e59",
-          light: "#ccfbf1",
+          DEFAULT: "#002349",
+          dark: "#001730",
+          light: "#e8ecf2",
         },
+        sand: "#f6f4f0",
+        line: "#ded9d1",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+      },
+      letterSpacing: {
+        wider: "0.08em",
+        widest: "0.18em",
       },
     },
   },
