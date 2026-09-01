@@ -129,7 +129,7 @@ export default async function PropertyPage({ params }: Props) {
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-24 lg:h-fit">
+        <aside className="lg:sticky lg:top-40 lg:h-fit">
           <div className="card space-y-4 p-6">
             <div>
               <h2 className="display text-xl">Interesuar për këtë pronë?</h2>

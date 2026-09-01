@@ -42,7 +42,7 @@ export default async function PropertiesPage({
       </p>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[300px_1fr]">
-        <aside className="lg:sticky lg:top-24 lg:h-fit">
+        <aside className="lg:sticky lg:top-40 lg:h-fit">
           <SearchFilters cities={cities} filters={filters} />
           {activeLabels.length > 0 && (
             <Link

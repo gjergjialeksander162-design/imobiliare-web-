@@ -37,16 +37,18 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <nav className="container-page flex justify-center gap-8 overflow-x-auto border-t border-line py-3 text-[11px] font-semibold uppercase tracking-widest text-slate-600">
-        {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="whitespace-nowrap hover:text-brand"
-          >
-            {link.label}
-          </Link>
-        ))}
+      <nav className="overflow-x-auto border-t border-line">
+        <div className="container-page flex w-max min-w-full justify-start gap-8 py-3 text-[11px] font-semibold uppercase tracking-widest text-slate-600 lg:justify-center">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="whitespace-nowrap hover:text-brand"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </nav>
     </header>
   );
