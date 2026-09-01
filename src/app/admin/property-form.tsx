@@ -5,6 +5,7 @@ import { useActionState } from "react";
 
 import { savePropertyAction } from "@/app/admin/actions";
 import { initialFormState } from "@/app/admin/form-state";
+import { ImageUploader } from "@/components/image-uploader";
 import {
   DEALS,
   DEAL_LABELS,
@@ -219,18 +220,8 @@ export function PropertyForm({ property }: { property?: Property }) {
           />
         </div>
 
-        <div>
-          <label className="label" htmlFor="images">
-            Fotot — URL ose shteg (një për rresht)
-          </label>
-          <textarea
-            id="images"
-            name="images"
-            rows={5}
-            placeholder="/images/prona-1.svg"
-            defaultValue={property?.images.join("\n")}
-            className="field"
-          />
+        <div className="sm:col-span-2">
+          <ImageUploader initial={property?.images} />
         </div>
 
         <div className="sm:col-span-2">
