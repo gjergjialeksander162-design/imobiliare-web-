@@ -17,6 +17,9 @@ export async function AdminBar() {
           <Link href="/admin/prona/e-re" className="hover:underline">
             Shto pronë
           </Link>
+          <Link href="/admin/crm" className="hover:underline">
+            CRM
+          </Link>
           <form action={logoutAction}>
             <button type="submit" className="hover:underline">
               Shkyçu
