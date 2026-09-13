@@ -1,4 +1,4 @@
-# Domus Imobiliare — web për agjenci imobiliare
+# Estate — web për agjenci imobiliare
 
 Next.js 15 (App Router) + TypeScript + Tailwind. Listime pronash me filtra, faqe detaji me galeri e hartë, formular kërkesash dhe panel administrimi.
 
