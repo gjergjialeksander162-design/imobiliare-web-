@@ -15,8 +15,8 @@ export function Wordmark({ size = "sm", block = true }: WordmarkProps) {
       } ${block ? (isLarge ? "px-10 py-6" : "px-6 py-3 sm:px-8 sm:py-4") : ""}`}
     >
       <span
-        className={`block font-serif uppercase leading-none tracking-[0.3em] ${
-          isLarge ? "text-4xl sm:text-5xl" : "text-2xl sm:text-3xl"
+        className={`block whitespace-nowrap font-serif uppercase leading-none tracking-[0.22em] ${
+          isLarge ? "text-3xl sm:text-5xl" : "text-xl sm:text-3xl"
         }`}
       >
         {site.name}
