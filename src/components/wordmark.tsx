@@ -1,12 +1,25 @@
 import { site } from "@/lib/site";
 
 type WordmarkProps = {
-  size?: "sm" | "lg";
+  size?: "xs" | "sm" | "lg";
   block?: boolean;
 };
 
 export function Wordmark({ size = "sm", block = true }: WordmarkProps) {
   const isLarge = size === "lg";
+
+  if (size === "xs") {
+    return (
+      <span className="inline-block text-left text-white">
+        <span className="block whitespace-nowrap font-serif text-lg uppercase leading-none tracking-[0.2em] sm:text-xl">
+          {site.name}
+        </span>
+        <span className="mt-1.5 block text-[9px] font-medium uppercase tracking-[0.3em] text-white/70">
+          Real Estate
+        </span>
+      </span>
+    );
+  }
 
   return (
     <span
