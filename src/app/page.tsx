@@ -45,7 +45,7 @@ export default async function HomePage() {
           preload="metadata"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/50 to-brand/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
         <div className="container-page relative pb-16 pt-24 text-white">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-white/80">
             {site.address}
