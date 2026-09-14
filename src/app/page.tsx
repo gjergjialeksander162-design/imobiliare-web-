@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { PropertyCard } from "@/components/property-card";
@@ -32,18 +31,19 @@ export default async function HomePage() {
     repo.list(),
   ]);
 
-  const hero = featured[0]?.images[0] ?? "/images/prona-1.svg";
-
   return (
     <>
       <section className="relative isolate flex min-h-[78vh] items-end overflow-hidden">
-        <Image
-          src={hero}
-          alt={site.name}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/video/hero-villa.mp4"
+          poster="/images/hero-villa.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/50 to-brand/25" />
         <div className="container-page relative pb-16 pt-24 text-white">
