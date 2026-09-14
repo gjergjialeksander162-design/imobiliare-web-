@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Wordmark } from "@/components/wordmark";
 import { site } from "@/lib/site";
 import { KINDS, KIND_LABELS } from "@/lib/types";
 
@@ -8,7 +9,7 @@ export function SiteFooter() {
     <footer className="border-t border-line bg-brand text-white">
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-serif text-2xl uppercase tracking-[0.22em]">{site.name}</p>
+          <Wordmark block={false} />
           <p className="mt-4 text-sm leading-relaxed text-white/70">
             {site.description}
           </p>

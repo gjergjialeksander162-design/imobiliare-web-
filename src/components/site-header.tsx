@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Wordmark } from "@/components/wordmark";
 import { site } from "@/lib/site";
 
 const links = [
@@ -21,13 +22,8 @@ export function SiteHeader() {
           {site.phone}
         </a>
 
-        <Link href="/" className="mx-auto text-center">
-          <span className="block font-serif text-2xl uppercase tracking-[0.28em] text-brand sm:text-3xl">
-            {site.name}
-          </span>
-          <span className="mt-1 block text-[10px] uppercase tracking-widest text-slate-500">
-            Real Estate
-          </span>
+        <Link href="/" className="mx-auto">
+          <Wordmark />
         </Link>
 
         <div className="hidden w-40 justify-end lg:flex">
