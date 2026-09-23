@@ -24,8 +24,8 @@ export default async function ClientsPage() {
             Nuk ka klientë. Shtoje të parin me formularin në krah.
           </p>
         ) : (
-          <div className="card mt-3 overflow-x-auto">
-            <table className="w-full text-left text-sm">
+          <div className="no-scrollbar card mt-3 overflow-x-auto">
+            <table className="w-full min-w-[36rem] text-left text-sm">
               <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-4 py-3">Klienti</th>

@@ -40,15 +40,15 @@ export default async function AdminPage() {
             dhënave: <span className="font-semibold">{repo.name}</span>
           </p>
         </div>
-        <div className="flex gap-3">
-          <Link href="/admin/prona/e-re" className="btn-primary">
+        <div className="flex w-full flex-wrap gap-3 sm:w-auto">
+          <Link href="/admin/prona/e-re" className="btn-primary flex-1 sm:flex-none">
             Shto pronë
           </Link>
-          <Link href="/admin/crm" className="btn-outline">
+          <Link href="/admin/crm" className="btn-outline flex-1 sm:flex-none">
             CRM
           </Link>
-          <form action={logoutAction}>
-            <button type="submit" className="btn-outline">
+          <form action={logoutAction} className="flex-1 sm:flex-none">
+            <button type="submit" className="btn-outline w-full">
               Shkyçu
             </button>
           </form>
@@ -57,8 +57,8 @@ export default async function AdminPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-bold">Listimet</h2>
-        <div className="card mt-3 overflow-x-auto">
-          <table className="w-full text-left text-sm">
+        <div className="no-scrollbar card mt-3 overflow-x-auto">
+          <table className="w-full min-w-[42rem] text-left text-sm">
             <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-4 py-3">Prona</th>
@@ -73,7 +73,10 @@ export default async function AdminPage() {
               {properties.map((property) => (
                 <tr key={property.id}>
                   <td className="px-4 py-3">
-                    <Link href={`/prona/${property.slug}`} className="font-medium hover:text-brand">
+                    <Link
+                      href={`/prona/${property.slug}`}
+                      className="font-medium hover:text-brand"
+                    >
                       {property.title}
                     </Link>
                     <p className="text-xs text-slate-500">

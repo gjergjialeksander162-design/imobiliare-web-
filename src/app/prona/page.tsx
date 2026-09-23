@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { FiltersPanel } from "@/components/filters-panel";
 import { PropertyCard } from "@/components/property-card";
-import { SearchFilters } from "@/components/search-filters";
 import { getRepository } from "@/lib/repo";
 import { parseFilters, type RawSearchParams } from "@/lib/search-params";
 import { DEAL_LABELS, KIND_LABELS } from "@/lib/types";
@@ -41,9 +41,13 @@ export default async function PropertiesPage({
         {activeLabels.length > 0 ? ` · ${activeLabels.join(" · ")}` : ""}
       </p>
 
-      <div className="mt-10 grid gap-12 lg:grid-cols-[300px_1fr]">
+      <div className="mt-10 grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-12">
         <aside className="lg:sticky lg:top-52 lg:h-fit">
-          <SearchFilters cities={cities} filters={filters} />
+          <FiltersPanel
+            cities={cities}
+            filters={filters}
+            defaultOpen={activeLabels.length > 0}
+          />
           {activeLabels.length > 0 && (
             <Link
               href="/prona"
@@ -56,7 +60,7 @@ export default async function PropertiesPage({
 
         <section>
           {properties.length === 0 ? (
-            <div className="card p-12 text-center">
+            <div className="card p-8 text-center sm:p-12">
               <p className="display text-2xl">Nuk u gjet asnjë pronë</p>
               <p className="mt-2 text-sm text-slate-600">
                 Provoni të zgjeroni kriteret e kërkimit ose kontaktoni agjencinë për

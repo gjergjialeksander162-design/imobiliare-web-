@@ -33,7 +33,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="relative isolate flex min-h-[78vh] items-end overflow-hidden">
+      <section className="relative isolate flex min-h-[70svh] items-end overflow-hidden sm:min-h-[78svh]">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           src="/video/hero-villa.mp4"
@@ -46,7 +46,7 @@ export default async function HomePage() {
           aria-hidden
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-        <div className="container-page relative pb-16 pt-24 text-white">
+        <div className="container-page relative pb-12 pt-20 text-white sm:pb-16 sm:pt-24">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-white/80">
             {site.address}
           </p>
@@ -87,9 +87,13 @@ export default async function HomePage() {
       <section className="border-y border-line bg-sand py-16">
         <div className="container-page">
           <p className="eyebrow text-center">Kategori</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-x-10 gap-y-4 text-[11px] font-semibold uppercase tracking-widest text-brand">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-2 text-[11px] font-semibold uppercase tracking-widest text-brand">
             {KINDS.map((kind) => (
-              <Link key={kind} href={`/prona?kind=${kind}`} className="hover:opacity-60">
+              <Link
+                key={kind}
+                href={`/prona?kind=${kind}`}
+                className="inline-flex min-h-11 items-center px-1 hover:opacity-60"
+              >
                 {KIND_LABELS[kind]}
               </Link>
             ))}

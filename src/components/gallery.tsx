@@ -70,7 +70,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       </button>
 
       {list.length > 1 && (
-        <div className="flex gap-3 overflow-x-auto pb-1">
+        <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1">
           {list.map((image, index) => (
             <button
               key={`${image}-${index}`}
@@ -102,13 +102,13 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
           onClick={() => setZoomed(false)}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
-          className="fixed inset-0 z-50 flex touch-pan-y select-none items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-50 flex touch-pan-y select-none items-center justify-center bg-black/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]"
         >
           <button
             type="button"
             onClick={() => setZoomed(false)}
             aria-label="Mbyll"
-            className="absolute right-4 top-4 rounded-full bg-white/10 px-3 py-1 text-2xl leading-none text-white hover:bg-white/20"
+            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
           >
             ×
           </button>
@@ -122,7 +122,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(-1);
                 }}
                 aria-label="Foto e mëparshme"
-                className="absolute left-3 rounded-full bg-white/10 px-4 py-3 text-2xl leading-none text-white hover:bg-white/20"
+                className="absolute left-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
               >
                 ‹
               </button>
@@ -133,7 +133,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(1);
                 }}
                 aria-label="Foto tjetër"
-                className="absolute right-3 rounded-full bg-white/10 px-4 py-3 text-2xl leading-none text-white hover:bg-white/20"
+                className="absolute right-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
               >
                 ›
               </button>
@@ -142,7 +142,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
 
           <div
             onClick={(event) => event.stopPropagation()}
-            className="relative h-[85vh] w-full max-w-5xl"
+            className="relative h-[80svh] w-full max-w-5xl"
           >
             <Image
               src={list[active]}
@@ -154,7 +154,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
             />
           </div>
 
-          <p className="absolute bottom-4 text-sm text-white/80">
+          <p className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] text-sm text-white/80">
             {active + 1} / {list.length}
           </p>
         </div>

@@ -95,7 +95,8 @@ export function ImageUploader({ initial = [] }: { initial?: string[] }) {
           accept="image/*"
           multiple
           onChange={(event) => handleFiles(event.target.files)}
-          className="text-sm"
+          disabled={uploading}
+          className="max-w-full text-sm file:mr-3 file:min-h-10 file:border file:border-line file:bg-sand file:px-3 file:text-xs file:font-semibold file:uppercase file:tracking-widest file:text-brand"
         />
         {uploading && (
           <span className="text-sm text-slate-500">Po ngarkohet… {progress}</span>
@@ -123,7 +124,7 @@ export function ImageUploader({ initial = [] }: { initial?: string[] }) {
                   <button
                     type="button"
                     onClick={() => move(index, -1)}
-                    className="rounded px-1 hover:bg-slate-100"
+                    className="h-9 w-9 rounded hover:bg-slate-100"
                     aria-label="Zhvendos majtas"
                   >
                     ←
@@ -131,7 +132,7 @@ export function ImageUploader({ initial = [] }: { initial?: string[] }) {
                   <button
                     type="button"
                     onClick={() => move(index, 1)}
-                    className="rounded px-1 hover:bg-slate-100"
+                    className="h-9 w-9 rounded hover:bg-slate-100"
                     aria-label="Zhvendos djathtas"
                   >
                     →
@@ -140,7 +141,7 @@ export function ImageUploader({ initial = [] }: { initial?: string[] }) {
                 <button
                   type="button"
                   onClick={() => remove(url)}
-                  className="font-medium text-rose-600 hover:underline"
+                  className="min-h-9 px-1 font-medium text-rose-600 hover:underline"
                 >
                   Hiq
                 </button>
