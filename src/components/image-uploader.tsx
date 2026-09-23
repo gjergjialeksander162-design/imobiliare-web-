@@ -3,33 +3,70 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 
+import { prepareImageForUpload } from "@/lib/image-file";
+
+async function uploadOne(file: File): Promise<string> {
+  const body = new FormData();
+  body.append("files", await prepareImageForUpload(file));
+
+  const response = await fetch("/api/admin/upload", { method: "POST", body });
+  const text = await response.text();
+
+  let payload: { urls?: string[]; error?: string } = {};
+  try {
+    payload = JSON.parse(text) as { urls?: string[]; error?: string };
+  } catch {
+    payload = {};
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      payload.error ??
+        (response.status === 401
+          ? "Sesioni i adminit skadoi — hyr përsëri."
+          : response.status === 413
+            ? `Foto "${file.name}" është shumë e madhe.`
+            : `Ngarkimi dështoi (${response.status}).`),
+    );
+  }
+
+  const url = payload.urls?.[0];
+  if (!url) throw new Error(`Ngarkimi i fotos "${file.name}" dështoi.`);
+  return url;
+}
+
 export function ImageUploader({ initial = [] }: { initial?: string[] }) {
   const [images, setImages] = useState<string[]>(initial);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [progress, setProgress] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
+    const selected = Array.from(files);
     setError("");
     setUploading(true);
-    try {
-      const body = new FormData();
-      Array.from(files).forEach((file) => body.append("files", file));
-      const response = await fetch("/api/admin/upload", { method: "POST", body });
-      const data = (await response.json()) as { urls?: string[]; error?: string };
-      if (!response.ok || !data.urls) {
-        throw new Error(data.error ?? "Ngarkimi dështoi");
+
+    const failed: string[] = [];
+    for (const [index, file] of selected.entries()) {
+      setProgress(`${index + 1}/${selected.length}`);
+      try {
+        const url = await uploadOne(file);
+        setImages((current) => [...current, url]);
+      } catch (uploadError) {
+        failed.push(
+          uploadError instanceof Error
+            ? uploadError.message
+            : `Foto "${file.name}" nuk u ngarkua.`,
+        );
       }
-      setImages((current) => [...current, ...data.urls!]);
-    } catch (uploadError) {
-      setError(
-        uploadError instanceof Error ? uploadError.message : "Ngarkimi dështoi",
-      );
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
     }
+
+    setProgress("");
+    setUploading(false);
+    setError(failed.join(" "));
+    if (inputRef.current) inputRef.current.value = "";
   }
 
   function remove(url: string) {
@@ -60,7 +97,9 @@ export function ImageUploader({ initial = [] }: { initial?: string[] }) {
           onChange={(event) => handleFiles(event.target.files)}
           className="text-sm"
         />
-        {uploading && <span className="text-sm text-slate-500">Po ngarkohet…</span>}
+        {uploading && (
+          <span className="text-sm text-slate-500">Po ngarkohet… {progress}</span>
+        )}
       </div>
       <p className="mt-1 text-xs text-slate-500">
         Zgjidh një ose disa foto nga pajisja (deri 8 MB secila). Foto e parë është kryesorja.
