@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useVisualViewport } from "@/lib/use-visual-viewport";
+
 const SWIPE_THRESHOLD = 40;
 
 export function Gallery({ images, alt }: { images: string[]; alt: string }) {
@@ -10,6 +12,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const viewport = useVisualViewport();
 
   const step = useCallback(
     (delta: number) => setActive((index) => (index + delta + list.length) % list.length),
@@ -102,7 +105,16 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
           onClick={() => setZoomed(false)}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
-          className="fixed inset-0 z-50 flex touch-pan-y select-none items-center justify-center bg-black/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]"
+          style={
+            viewport && (viewport.scale > 1.01 || viewport.offsetTop > 0 || viewport.offsetLeft > 0)
+              ? {
+                  width: viewport.width,
+                  height: viewport.height,
+                  transform: `translate(${viewport.offsetLeft}px, ${viewport.offsetTop}px)`,
+                }
+              : undefined
+          }
+          className="fixed left-0 top-0 z-50 flex h-full w-full touch-pan-y select-none items-center justify-center bg-black/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]"
         >
           <button
             type="button"
@@ -142,7 +154,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
 
           <div
             onClick={(event) => event.stopPropagation()}
-            className="relative h-[80svh] w-full max-w-5xl"
+            className="relative h-full max-h-[80vh] w-full max-w-5xl"
           >
             <Image
               src={list[active]}
