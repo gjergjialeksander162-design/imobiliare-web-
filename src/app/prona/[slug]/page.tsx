@@ -64,8 +64,8 @@ export default async function PropertyPage({ params }: Props) {
         / <span className="text-slate-700">{property.title}</span>
       </nav>
 
-      <div className="mt-6 grid gap-12 lg:grid-cols-[1fr_360px]">
-        <div className="space-y-8">
+      <div className="mt-6 grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="min-w-0 space-y-8">
           <Gallery images={property.images} alt={property.title} />
 
           <div>

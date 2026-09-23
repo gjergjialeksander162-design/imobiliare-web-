@@ -52,7 +52,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="min-w-0 space-y-3">
       <button
         type="button"
         onClick={() => setZoomed(true)}
@@ -73,7 +73,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       </button>
 
       {list.length > 1 && (
-        <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1">
+        <div className="no-scrollbar flex w-full max-w-full gap-3 overflow-x-auto pb-1">
           {list.map((image, index) => (
             <button
               key={`${image}-${index}`}
