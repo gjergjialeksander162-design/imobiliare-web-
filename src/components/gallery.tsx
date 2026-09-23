@@ -1,12 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const SWIPE_THRESHOLD = 40;
 
 export function Gallery({ images, alt }: { images: string[]; alt: string }) {
   const list = images.length > 0 ? images : ["/images/prona-1.svg"];
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const step = useCallback(
     (delta: number) => setActive((index) => (index + delta + list.length) % list.length),
@@ -27,6 +30,23 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       document.body.style.overflow = "";
     };
   }, [zoomed, step]);
+
+  function onTouchStart(event: React.TouchEvent) {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function onTouchEnd(event: React.TouchEvent) {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start || list.length < 2) return;
+
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+    step(dx < 0 ? 1 : -1);
+  }
 
   return (
     <div className="space-y-3">
@@ -80,7 +100,9 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
           aria-modal="true"
           aria-label={alt}
           onClick={() => setZoomed(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          className="fixed inset-0 z-50 flex touch-pan-y select-none items-center justify-center bg-black/90 p-4"
         >
           <button
             type="button"
@@ -127,6 +149,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
               alt={alt}
               fill
               sizes="100vw"
+              draggable={false}
               className="object-contain"
             />
           </div>
