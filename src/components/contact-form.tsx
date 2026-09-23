@@ -34,7 +34,14 @@ export function ContactForm({
         <label className="label" htmlFor="name">
           Emri dhe mbiemri
         </label>
-        <input id="name" name="name" required className="field" />
+        <input
+          id="name"
+          name="name"
+          required
+          autoComplete="name"
+          enterKeyHint="next"
+          className="field"
+        />
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -42,13 +49,29 @@ export function ContactForm({
           <label className="label" htmlFor="phone">
             Telefoni
           </label>
-          <input id="phone" name="phone" type="tel" className="field" />
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            className="field"
+          />
         </div>
         <div>
           <label className="label" htmlFor="email">
             Email
           </label>
-          <input id="email" name="email" type="email" className="field" />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            autoCapitalize="none"
+            spellCheck={false}
+            className="field"
+          />
         </div>
       </div>
 

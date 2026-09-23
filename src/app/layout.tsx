@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 
 import { AdminBar } from "@/components/admin-bar";
@@ -29,12 +29,18 @@ export const metadata: Metadata = {
   description: site.description,
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#002349",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="sq" className={`${sans.variable} ${serif.variable}`}>
-      <body className="flex min-h-screen flex-col font-sans antialiased">
+      <body className="flex min-h-[100dvh] flex-col overflow-x-hidden font-sans antialiased">
         <AdminBar />
         <SiteHeader />
         <main className="flex-1">{children}</main>

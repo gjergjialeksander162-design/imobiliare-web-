@@ -72,6 +72,7 @@ export function PropertyForm({ property }: { property?: Property }) {
             id="price"
             name="price"
             type="number"
+            inputMode="numeric"
             min={0}
             step="any"
             required
@@ -102,6 +103,7 @@ export function PropertyForm({ property }: { property?: Property }) {
             id="area"
             name="area"
             type="number"
+            inputMode="numeric"
             min={0}
             step="any"
             defaultValue={property?.area}
@@ -118,6 +120,7 @@ export function PropertyForm({ property }: { property?: Property }) {
               id="rooms"
               name="rooms"
               type="number"
+              inputMode="numeric"
               min={0}
               defaultValue={property?.rooms}
               className="field"
@@ -131,6 +134,7 @@ export function PropertyForm({ property }: { property?: Property }) {
               id="baths"
               name="baths"
               type="number"
+              inputMode="numeric"
               min={0}
               defaultValue={property?.baths}
               className="field"
@@ -254,11 +258,11 @@ export function PropertyForm({ property }: { property?: Property }) {
         </p>
       )}
 
-      <div className="flex gap-3">
-        <button type="submit" disabled={pending} className="btn-primary">
+      <div className="flex flex-wrap gap-3">
+        <button type="submit" disabled={pending} className="btn-primary flex-1 sm:flex-none">
           {pending ? "Po ruhet…" : "Ruaj pronën"}
         </button>
-        <Link href="/admin" className="btn-outline">
+        <Link href="/admin" className="btn-outline flex-1 sm:flex-none">
           Anulo
         </Link>
       </div>

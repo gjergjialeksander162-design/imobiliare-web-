@@ -51,7 +51,7 @@ export default async function PropertyPage({ params }: Props) {
       : null;
 
   return (
-    <div className="container-page py-10">
+    <div className="container-page py-10 pb-28 lg:pb-10">
       <nav className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
         <Link href="/" className="hover:text-brand">
           Kryefaqja
@@ -72,7 +72,9 @@ export default async function PropertyPage({ params }: Props) {
               <span className="text-brand">{DEAL_LABELS[property.deal]}</span>
               <span>Publikuar më {formatDate(property.createdAt)}</span>
             </div>
-            <h1 className="display mt-4 text-3xl sm:text-4xl">{property.title}</h1>
+            <h1 className="display mt-4 break-words text-3xl sm:text-4xl">
+              {property.title}
+            </h1>
             <p className="mt-2 text-sm text-slate-600">
               {property.address ? `${property.address}, ` : ""}
               {property.city}
@@ -123,14 +125,14 @@ export default async function PropertyPage({ params }: Props) {
                 title={`Harta e ${property.title}`}
                 src={mapSrc}
                 loading="lazy"
-                className="mt-4 h-80 w-full border border-line"
+                className="mt-4 h-64 w-full border border-line sm:h-80"
               />
             </section>
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-52 lg:h-fit">
-          <div className="card space-y-4 p-6">
+        <aside id="kontakt-prone" className="scroll-mt-40 lg:sticky lg:top-52 lg:h-fit">
+          <div className="card space-y-4 p-5 sm:p-6">
             <div>
               <h2 className="display text-xl">Interesuar për këtë pronë?</h2>
               <p className="mt-2 text-sm text-slate-600">
@@ -155,6 +157,18 @@ export default async function PropertyPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      <div className="fixed inset-x-0 bottom-0 z-20 flex gap-2 border-t border-line bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+        <a
+          href={`tel:${site.phone.replace(/\s/g, "")}`}
+          className="btn-outline flex-1"
+        >
+          Telefono
+        </a>
+        <a href="#kontakt-prone" className="btn-primary flex-1">
+          Dërgo kërkesë
+        </a>
+      </div>
     </div>
   );
 }

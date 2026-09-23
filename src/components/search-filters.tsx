@@ -16,7 +16,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
       method="get"
       className={
         isHero
-          ? "grid gap-4 border border-line bg-white p-6 sm:grid-cols-2 lg:grid-cols-5 lg:items-end"
+          ? "grid gap-4 border border-line bg-white p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-5 lg:items-end"
           : "card space-y-4 p-5"
       }
     >
@@ -29,6 +29,9 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
           name="q"
           defaultValue={filters.q ?? ""}
           placeholder="qytet, zonë, fjalë kyçe…"
+          type="search"
+          enterKeyHint="search"
+          autoComplete="off"
           className="field"
         />
       </div>
@@ -86,6 +89,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
                 id="minPrice"
                 name="minPrice"
                 type="number"
+                inputMode="numeric"
                 min={0}
                 defaultValue={filters.minPrice ?? ""}
                 className="field"
@@ -99,6 +103,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
                 id="maxPrice"
                 name="maxPrice"
                 type="number"
+                inputMode="numeric"
                 min={0}
                 defaultValue={filters.maxPrice ?? ""}
                 className="field"
@@ -115,6 +120,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
                 id="minRooms"
                 name="minRooms"
                 type="number"
+                inputMode="numeric"
                 min={0}
                 defaultValue={filters.minRooms ?? ""}
                 className="field"
@@ -128,6 +134,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
                 id="minArea"
                 name="minArea"
                 type="number"
+                inputMode="numeric"
                 min={0}
                 defaultValue={filters.minArea ?? ""}
                 className="field"

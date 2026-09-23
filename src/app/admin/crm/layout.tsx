@@ -28,7 +28,7 @@ export default async function CrmLayout({
           <Link
             key={link.href}
             href={link.href}
-            className="rounded-full bg-slate-100 px-4 py-1.5 font-medium text-slate-700 hover:bg-slate-200"
+            className="inline-flex min-h-10 items-center rounded-full bg-slate-100 px-4 font-medium text-slate-700 hover:bg-slate-200"
           >
             {link.label}
           </Link>

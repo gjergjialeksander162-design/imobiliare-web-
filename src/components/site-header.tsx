@@ -18,19 +18,19 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 bg-brand text-white">
       <div className="bg-brand-dark">
-        <div className="container-page flex items-center justify-between gap-4 py-2 text-[10px] font-medium uppercase tracking-[0.2em] text-white/70">
+        <div className="container-page flex items-center justify-between gap-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white/70">
           <span className="hidden sm:block">{site.address}</span>
           <span className="hidden lg:block">{site.hours}</span>
           <div className="flex items-center gap-4 sm:gap-6">
             <a
               href={`tel:${site.phone.replace(/\s/g, "")}`}
-              className="hover:text-white"
+              className="inline-flex min-h-9 items-center hover:text-white"
             >
               {site.phone}
             </a>
             <a
               href={`mailto:${site.email}`}
-              className="hidden hover:text-white sm:block"
+              className="hidden min-h-9 items-center hover:text-white sm:inline-flex"
             >
               {site.email}
             </a>
@@ -73,10 +73,14 @@ export function SiteHeader() {
 
       <div className="border-t border-white/15 bg-brand-dark/40">
         <div className="container-page flex items-center gap-6 lg:justify-between">
-          <nav className="-mx-1 flex-1 overflow-x-auto">
-            <div className="flex w-max min-w-full items-center gap-7 px-1 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] lg:gap-9">
+          <nav className="no-scrollbar -mx-1 flex-1 overflow-x-auto overscroll-x-contain">
+            <div className="flex w-max min-w-full items-center gap-7 px-1 text-[11px] font-semibold uppercase tracking-[0.18em] lg:gap-9">
               {links.map((link) => (
-                <Link key={link.href} href={link.href} className={navLinkClass}>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${navLinkClass} inline-flex min-h-11 items-center`}
+                >
                   {link.label}
                 </Link>
               ))}
