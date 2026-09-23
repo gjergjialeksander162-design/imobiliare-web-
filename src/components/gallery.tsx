@@ -6,18 +6,40 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useVisualViewport } from "@/lib/use-visual-viewport";
 
 const SWIPE_THRESHOLD = 40;
+const MAX_SCALE = 4;
+const DOUBLE_TAP_SCALE = 2.5;
+
+type Transform = { scale: number; x: number; y: number };
+
+const IDENTITY: Transform = { scale: 1, x: 0, y: 0 };
+
+function distance(a: Touch, b: Touch) {
+  return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+}
 
 export function Gallery({ images, alt }: { images: string[]; alt: string }) {
   const list = images.length > 0 ? images : ["/images/prona-1.svg"];
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const [transform, setTransform] = useState<Transform>(IDENTITY);
+  const transformRef = useRef<Transform>(IDENTITY);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const gestureEndRef = useRef(0);
   const viewport = useVisualViewport();
 
   const step = useCallback(
     (delta: number) => setActive((index) => (index + delta + list.length) % list.length),
     [list.length],
   );
+
+  const applyTransform = useCallback((next: Transform) => {
+    transformRef.current = next;
+    setTransform(next);
+  }, []);
+
+  useEffect(() => {
+    applyTransform(IDENTITY);
+  }, [active, zoomed, applyTransform]);
 
   useEffect(() => {
     if (!zoomed) return;
@@ -34,21 +56,149 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
     };
   }, [zoomed, step]);
 
-  function onTouchStart(event: React.TouchEvent) {
-    const touch = event.touches[0];
-    touchStart.current = { x: touch.clientX, y: touch.clientY };
-  }
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    if (!zoomed || !overlay) return;
 
-  function onTouchEnd(event: React.TouchEvent) {
-    const start = touchStart.current;
-    touchStart.current = null;
-    if (!start || list.length < 2) return;
+    let pinch: { dist: number; scale: number } | null = null;
+    let pan: { x: number; y: number; ox: number; oy: number } | null = null;
+    let swipe: { x: number; y: number; onButton: boolean } | null = null;
+    let lastTapAt = 0;
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - start.x;
-    const dy = touch.clientY - start.y;
-    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
-    step(dx < 0 ? 1 : -1);
+    function clampOffset(next: Transform): Transform {
+      const rect = overlay!.getBoundingClientRect();
+      const limitX = (Math.max(next.scale, 1) - 1) * rect.width * 0.5;
+      const limitY = (Math.max(next.scale, 1) - 1) * rect.height * 0.5;
+      return {
+        scale: next.scale,
+        x: Math.min(limitX, Math.max(-limitX, next.x)),
+        y: Math.min(limitY, Math.max(-limitY, next.y)),
+      };
+    }
+
+    function onTouchStart(event: TouchEvent) {
+      const current = transformRef.current;
+      if (event.touches.length === 2) {
+        pinch = { dist: distance(event.touches[0], event.touches[1]), scale: current.scale };
+        pan = null;
+        swipe = null;
+        event.preventDefault();
+        return;
+      }
+      if (event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      if (current.scale > 1.01) {
+        pan = { x: touch.clientX, y: touch.clientY, ox: current.x, oy: current.y };
+        swipe = null;
+      } else {
+        swipe = {
+          x: touch.clientX,
+          y: touch.clientY,
+          onButton: Boolean((event.target as Element | null)?.closest("button")),
+        };
+      }
+    }
+
+    function onTouchMove(event: TouchEvent) {
+      if (pinch && event.touches.length === 2) {
+        const ratio = distance(event.touches[0], event.touches[1]) / pinch.dist;
+        const scale = Math.min(MAX_SCALE, Math.max(1, pinch.scale * ratio));
+        applyTransform(clampOffset({ ...transformRef.current, scale }));
+        event.preventDefault();
+        return;
+      }
+      if (pan && event.touches.length === 1) {
+        const touch = event.touches[0];
+        applyTransform(
+          clampOffset({
+            scale: transformRef.current.scale,
+            x: pan.ox + (touch.clientX - pan.x),
+            y: pan.oy + (touch.clientY - pan.y),
+          }),
+        );
+        event.preventDefault();
+      }
+    }
+
+    function handleTap() {
+      const now = Date.now();
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      if (now - lastTapAt < 300) {
+        lastTapAt = 0;
+        applyTransform(
+          transformRef.current.scale > 1.01 ? IDENTITY : { scale: DOUBLE_TAP_SCALE, x: 0, y: 0 },
+        );
+        return;
+      }
+      lastTapAt = now;
+      closeTimer = setTimeout(() => {
+        closeTimer = null;
+        if (transformRef.current.scale <= 1.01) setZoomed(false);
+      }, 320);
+    }
+
+    function onTouchEnd(event: TouchEvent) {
+      if (pinch) {
+        pinch = null;
+        gestureEndRef.current = Date.now();
+        if (transformRef.current.scale <= 1.05) applyTransform(IDENTITY);
+        return;
+      }
+      if (pan) {
+        const moved = event.changedTouches[0];
+        const still =
+          Math.abs(moved.clientX - pan.x) < 10 && Math.abs(moved.clientY - pan.y) < 10;
+        pan = null;
+        gestureEndRef.current = Date.now();
+        if (still) handleTap();
+        return;
+      }
+
+      const start = swipe;
+      swipe = null;
+      if (!start) return;
+
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+        if (!start.onButton) handleTap();
+        return;
+      }
+
+      if (list.length < 2) return;
+      if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+      gestureEndRef.current = Date.now();
+      step(dx < 0 ? 1 : -1);
+    }
+
+    function onTouchEndWrapped(event: TouchEvent) {
+      onTouchEnd(event);
+      gestureEndRef.current = Date.now();
+    }
+
+    overlay.addEventListener("touchstart", onTouchStart, { passive: false });
+    overlay.addEventListener("touchmove", onTouchMove, { passive: false });
+    overlay.addEventListener("touchend", onTouchEndWrapped, { passive: false });
+    overlay.addEventListener("touchcancel", onTouchEndWrapped, { passive: false });
+    return () => {
+      if (closeTimer) clearTimeout(closeTimer);
+      overlay.removeEventListener("touchstart", onTouchStart);
+      overlay.removeEventListener("touchmove", onTouchMove);
+      overlay.removeEventListener("touchend", onTouchEndWrapped);
+      overlay.removeEventListener("touchcancel", onTouchEndWrapped);
+    };
+  }, [zoomed, list.length, step, applyTransform]);
+
+  function closeIfIdle() {
+    if (Date.now() - gestureEndRef.current < 300) return;
+    if (transformRef.current.scale > 1.01) return;
+    setZoomed(false);
   }
 
   return (
@@ -99,12 +249,11 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
 
       {zoomed && (
         <div
+          ref={overlayRef}
           role="dialog"
           aria-modal="true"
           aria-label={alt}
-          onClick={() => setZoomed(false)}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
+          onClick={closeIfIdle}
           style={
             viewport && (viewport.scale > 1.01 || viewport.offsetTop > 0 || viewport.offsetLeft > 0)
               ? {
@@ -114,18 +263,40 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                 }
               : undefined
           }
-          className="fixed left-0 top-0 z-50 flex h-full w-full touch-pan-y select-none items-center justify-center bg-black/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]"
+          className="fixed left-0 top-0 z-50 flex h-full w-full touch-none select-none items-center justify-center overflow-hidden bg-black/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]"
         >
+          <div
+            className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
+            style={{
+              transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
+              transition: "transform 120ms ease-out",
+            }}
+          >
+            <div className="relative h-full max-h-[80vh] w-full max-w-5xl">
+              <Image
+                src={list[active]}
+                alt={alt}
+                fill
+                sizes="100vw"
+                draggable={false}
+                className="object-contain"
+              />
+            </div>
+          </div>
+
           <button
             type="button"
-            onClick={() => setZoomed(false)}
+            onClick={(event) => {
+              event.stopPropagation();
+              setZoomed(false);
+            }}
             aria-label="Mbyll"
-            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
+            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
           >
             ×
           </button>
 
-          {list.length > 1 && (
+          {list.length > 1 && transform.scale <= 1.01 && (
             <>
               <button
                 type="button"
@@ -134,9 +305,11 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(-1);
                 }}
                 aria-label="Foto e mëparshme"
-                className="absolute left-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
+                className="absolute inset-y-0 left-0 z-10 flex w-[28%] items-center justify-start pl-3"
               >
-                ‹
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20">
+                  ‹
+                </span>
               </button>
               <button
                 type="button"
@@ -145,28 +318,16 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(1);
                 }}
                 aria-label="Foto tjetër"
-                className="absolute right-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
+                className="absolute inset-y-0 right-0 z-10 flex w-[28%] items-center justify-end pr-3"
               >
-                ›
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20">
+                  ›
+                </span>
               </button>
             </>
           )}
 
-          <div
-            onClick={(event) => event.stopPropagation()}
-            className="relative h-full max-h-[80vh] w-full max-w-5xl"
-          >
-            <Image
-              src={list[active]}
-              alt={alt}
-              fill
-              sizes="100vw"
-              draggable={false}
-              className="object-contain"
-            />
-          </div>
-
-          <p className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] text-sm text-white/80">
+          <p className="pointer-events-none absolute bottom-[max(1rem,env(safe-area-inset-bottom))] z-10 text-sm text-white/80">
             {active + 1} / {list.length}
           </p>
         </div>
