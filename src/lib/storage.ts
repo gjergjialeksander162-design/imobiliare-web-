@@ -25,7 +25,8 @@ export async function uploadPropertyImage(file: File): Promise<string> {
   }
 
   const { url, key } = config();
-  const extension = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
+  const extension =
+    file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
   const base = slugify(file.name.replace(/\.[^.]+$/, "")) || "foto";
   const path = `${new Date().getFullYear()}/${randomUUID()}-${base}.${extension}`;
 
