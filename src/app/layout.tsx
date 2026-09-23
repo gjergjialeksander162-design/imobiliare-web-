@@ -40,7 +40,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="sq" className={`${sans.variable} ${serif.variable}`}>
-      <body className="flex min-h-[100dvh] flex-col overflow-x-hidden font-sans antialiased">
+      <body className="flex min-h-[100dvh] flex-col font-sans antialiased">
         <AdminBar />
         <SiteHeader />
         <main className="flex-1">{children}</main>

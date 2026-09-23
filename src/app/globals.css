@@ -9,13 +9,28 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-tap-highlight-color: rgb(0 35 73 / 0.12);
+}
+
+@supports not (overflow: clip) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 @media (max-width: 640px) {

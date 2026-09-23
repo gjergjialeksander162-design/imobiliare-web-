@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ContactForm } from "@/components/contact-form";
 import { Gallery } from "@/components/gallery";
+import { MobileActions } from "@/components/mobile-actions";
 import { PropertyCard } from "@/components/property-card";
 import { formatDate, formatNumber, formatPrice } from "@/lib/format";
 import { getRepository } from "@/lib/repo";
@@ -158,17 +159,7 @@ export default async function PropertyPage({ params }: Props) {
         </section>
       )}
 
-      <div className="fixed inset-x-0 bottom-0 z-20 flex gap-2 border-t border-line bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
-        <a
-          href={`tel:${site.phone.replace(/\s/g, "")}`}
-          className="btn-outline flex-1"
-        >
-          Telefono
-        </a>
-        <a href="#kontakt-prone" className="btn-primary flex-1">
-          Dërgo kërkesë
-        </a>
-      </div>
+      <MobileActions phone={site.phone} />
     </div>
   );
 }
