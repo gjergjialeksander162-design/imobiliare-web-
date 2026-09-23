@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type MouseEvent as ReactMouseEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { useVisualViewport } from "@/lib/use-visual-viewport";
 
@@ -15,6 +15,21 @@ const IDENTITY: Transform = { scale: 1, x: 0, y: 0 };
 
 function distance(a: Touch, b: Touch) {
   return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+}
+
+function isOutsideImage(overlay: HTMLElement, x: number, y: number) {
+  const img = overlay.querySelector("img");
+  if (!img) return false;
+  const rect = img.getBoundingClientRect();
+  const ratio = Math.min(
+    rect.width / (img.naturalWidth || 1),
+    rect.height / (img.naturalHeight || 1),
+  );
+  const width = (img.naturalWidth || rect.width) * ratio;
+  const height = (img.naturalHeight || rect.height) * ratio;
+  const left = rect.left + (rect.width - width) / 2;
+  const top = rect.top + (rect.height - height) / 2;
+  return x < left || x > left + width || y < top || y > top + height;
 }
 
 export function Gallery({ images, alt }: { images: string[]; alt: string }) {
@@ -121,20 +136,22 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       }
     }
 
-    function handleTap() {
+    function handleTap(x: number, y: number) {
       const now = Date.now();
       if (closeTimer) {
         clearTimeout(closeTimer);
         closeTimer = null;
       }
+      if (transformRef.current.scale > 1.01) return;
+
       if (now - lastTapAt < 300) {
         lastTapAt = 0;
-        applyTransform(
-          transformRef.current.scale > 1.01 ? IDENTITY : { scale: DOUBLE_TAP_SCALE, x: 0, y: 0 },
-        );
+        applyTransform({ scale: DOUBLE_TAP_SCALE, x: 0, y: 0 });
         return;
       }
       lastTapAt = now;
+
+      if (!isOutsideImage(overlay!, x, y)) return;
       closeTimer = setTimeout(() => {
         closeTimer = null;
         if (transformRef.current.scale <= 1.01) setZoomed(false);
@@ -154,7 +171,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
           Math.abs(moved.clientX - pan.x) < 10 && Math.abs(moved.clientY - pan.y) < 10;
         pan = null;
         gestureEndRef.current = Date.now();
-        if (still) handleTap();
+        if (still) handleTap(moved.clientX, moved.clientY);
         return;
       }
 
@@ -167,7 +184,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       const dy = touch.clientY - start.y;
 
       if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
-        if (!start.onButton) handleTap();
+        if (!start.onButton) handleTap(touch.clientX, touch.clientY);
         return;
       }
 
@@ -195,9 +212,11 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
     };
   }, [zoomed, list.length, step, applyTransform]);
 
-  function closeIfIdle() {
+  function closeIfIdle(event: ReactMouseEvent<HTMLDivElement>) {
     if (Date.now() - gestureEndRef.current < 300) return;
     if (transformRef.current.scale > 1.01) return;
+    const overlay = overlayRef.current;
+    if (overlay && !isOutsideImage(overlay, event.clientX, event.clientY)) return;
     setZoomed(false);
   }
 
@@ -291,7 +310,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
               setZoomed(false);
             }}
             aria-label="Mbyll"
-            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
+            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20"
           >
             ×
           </button>
@@ -305,7 +324,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(-1);
                 }}
                 aria-label="Foto e mëparshme"
-                className="absolute inset-y-0 left-0 z-10 flex w-[28%] items-center justify-start pl-3"
+                className="absolute bottom-0 left-0 top-20 z-10 flex w-[28%] items-center justify-start pl-3"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20">
                   ‹
@@ -318,7 +337,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
                   step(1);
                 }}
                 aria-label="Foto tjetër"
-                className="absolute inset-y-0 right-0 z-10 flex w-[28%] items-center justify-end pr-3"
+                className="absolute bottom-0 right-0 top-20 z-10 flex w-[28%] items-center justify-end pr-3"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-2xl leading-none text-white hover:bg-white/20">
                   ›
