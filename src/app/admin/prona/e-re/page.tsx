@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { PropertyForm } from "@/app/admin/property-form";
 import { isAuthenticated } from "@/lib/auth";
+import { getRepository } from "@/lib/repo";
 
 export const dynamic = "force-dynamic";
 
@@ -13,12 +14,13 @@ export const metadata: Metadata = {
 
 export default async function NewPropertyPage() {
   if (!(await isAuthenticated())) redirect("/admin");
+  const cities = await getRepository().cities();
 
   return (
     <div className="container-page py-10">
       <h1 className="text-2xl font-bold">Shto pronë</h1>
       <div className="mt-6">
-        <PropertyForm />
+        <PropertyForm cities={cities} />
       </div>
     </div>
   );

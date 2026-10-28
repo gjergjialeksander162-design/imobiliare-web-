@@ -1,4 +1,12 @@
+function siteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  return vercel ? `https://${vercel}` : "http://localhost:3000";
+}
+
 export const site = {
+  url: siteUrl(),
   name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Domus Grup",
   tagline: "Agjenci imobiliare — shitje, qira dhe konsulencë pronash",
   description:

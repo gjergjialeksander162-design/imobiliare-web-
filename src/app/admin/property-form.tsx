@@ -14,7 +14,13 @@ import {
   type Property,
 } from "@/lib/types";
 
-export function PropertyForm({ property }: { property?: Property }) {
+export function PropertyForm({
+  property,
+  cities = [],
+}: {
+  property?: Property;
+  cities?: string[];
+}) {
   const [state, action, pending] = useActionState(
     savePropertyAction,
     initialFormState,
@@ -85,7 +91,25 @@ export function PropertyForm({ property }: { property?: Property }) {
           <label className="label" htmlFor="city">
             Qyteti *
           </label>
-          <input id="city" name="city" required defaultValue={property?.city} className="field" />
+          <input
+            id="city"
+            name="city"
+            required
+            list="city-options"
+            autoComplete="off"
+            defaultValue={property?.city}
+            placeholder="p.sh. Tiranë"
+            className="field"
+          />
+          <datalist id="city-options">
+            {cities.map((city) => (
+              <option key={city} value={city} />
+            ))}
+          </datalist>
+          <p className="mt-1 text-xs text-slate-500">
+            Përdor të njëjtin shkrim për çdo pronë (p.sh. “Tiranë”, jo “tirana”), që filtri i
+            qytetit të mos i ndajë.
+          </p>
         </div>
 
         <div className="sm:col-span-2">

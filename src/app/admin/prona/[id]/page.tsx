@@ -20,7 +20,8 @@ export default async function EditPropertyPage({
   if (!(await isAuthenticated())) redirect("/admin");
 
   const { id } = await params;
-  const property = await getRepository().byId(id);
+  const repo = getRepository();
+  const [property, cities] = await Promise.all([repo.byId(id), repo.cities()]);
   if (!property) notFound();
 
   return (
@@ -28,7 +29,7 @@ export default async function EditPropertyPage({
       <h1 className="text-2xl font-bold">Edito pronën</h1>
       <p className="mt-1 text-sm text-slate-600">{property.title}</p>
       <div className="mt-6">
-        <PropertyForm property={property} />
+        <PropertyForm property={property} cities={cities} />
       </div>
     </div>
   );

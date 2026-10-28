@@ -11,6 +11,9 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Prona në shitje dhe me qira",
+  description:
+    "Apartamente, shtëpi, vila, troje, lokale dhe zyra në shitje ose me qira — filtro sipas qytetit, çmimit dhe sipërfaqes.",
+  alternates: { canonical: "/prona" },
 };
 
 export default async function PropertiesPage({
