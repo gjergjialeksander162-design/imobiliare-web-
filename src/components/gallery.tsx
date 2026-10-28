@@ -220,20 +220,75 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
     setZoomed(false);
   }
 
+  const mosaic = list.slice(1, 5);
+
   return (
     <div className="min-w-0 space-y-3">
+      <div className="hidden gap-2 lg:grid lg:grid-cols-[2fr_1fr_1fr] lg:grid-rows-2">
+        <button
+          type="button"
+          onClick={() => {
+            setActive(0);
+            setZoomed(true);
+          }}
+          aria-label="Zmadho foton"
+          className="group relative row-span-2 block aspect-[4/3] w-full cursor-zoom-in overflow-hidden bg-sand"
+        >
+          <Image
+            src={list[0]}
+            alt={alt}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition duration-700 group-hover:scale-[1.03]"
+          />
+        </button>
+        {mosaic.map((image, index) => {
+          const isLast = index === mosaic.length - 1 && list.length > 5;
+          return (
+            <button
+              key={`${image}-${index}`}
+              type="button"
+              onClick={() => {
+                setActive(index + 1);
+                setZoomed(true);
+              }}
+              aria-label={`Foto ${index + 2}`}
+              className="group relative block min-h-0 w-full cursor-zoom-in overflow-hidden bg-sand"
+            >
+              <Image
+                src={image}
+                alt=""
+                fill
+                sizes="25vw"
+                className="object-cover transition duration-700 group-hover:scale-[1.03]"
+              />
+              {isLast && (
+                <span className="absolute inset-0 flex items-center justify-center bg-brand-dark/55 font-serif text-2xl text-white">
+                  +{list.length - 5} foto
+                </span>
+              )}
+            </button>
+          );
+        })}
+        {mosaic.length < 4 &&
+          Array.from({ length: 4 - mosaic.length }).map((_, index) => (
+            <div key={`empty-${index}`} className="border border-line bg-ivory" aria-hidden />
+          ))}
+      </div>
+
       <button
         type="button"
         onClick={() => setZoomed(true)}
         aria-label="Zmadho foton"
-        className="relative block aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-sand"
+        className="relative block aspect-[16/10] w-full cursor-zoom-in overflow-hidden bg-sand lg:hidden"
       >
         <Image
           src={list[active]}
           alt={alt}
           fill
           priority
-          sizes="(max-width: 1024px) 100vw, 66vw"
+          sizes="100vw"
           className="object-cover"
         />
         <span className="absolute bottom-3 right-3 bg-black/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white">
@@ -242,7 +297,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
       </button>
 
       {list.length > 1 && (
-        <div className="no-scrollbar flex w-full max-w-full gap-3 overflow-x-auto pb-1">
+        <div className="no-scrollbar flex w-full max-w-full gap-3 overflow-x-auto pb-1 lg:hidden">
           {list.map((image, index) => (
             <button
               key={`${image}-${index}`}
@@ -251,7 +306,7 @@ export function Gallery({ images, alt }: { images: string[]; alt: string }) {
               aria-label={`Foto ${index + 1}`}
               aria-current={index === active}
               className={`relative h-20 w-28 shrink-0 overflow-hidden border-2 ${
-                index === active ? "border-brand" : "border-transparent"
+                index === active ? "border-gold" : "border-transparent"
               }`}
             >
               <Image

@@ -16,7 +16,7 @@ export function SearchFilters({ cities, filters, variant = "sidebar" }: Props) {
       method="get"
       className={
         isHero
-          ? "grid gap-4 border border-line bg-white p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-5 lg:items-end"
+          ? "grid gap-4 bg-white p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-5 lg:items-end"
           : "card space-y-4 p-5"
       }
     >
