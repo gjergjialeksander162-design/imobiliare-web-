@@ -9,7 +9,7 @@ import { PropertyCard } from "@/components/property-card";
 import { formatDate, formatNumber, formatPrice } from "@/lib/format";
 import { getRepository } from "@/lib/repo";
 import { site } from "@/lib/site";
-import { DEAL_LABELS, KIND_LABELS } from "@/lib/types";
+import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +20,73 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const property = await getRepository().bySlug(slug);
-  if (!property) return { title: "Prona nuk u gjet" };
+  if (!property) return { title: "Prona nuk u gjet", robots: { index: false } };
+  const description = propertyDescription(property);
+  const image = property.images[0];
   return {
     title: property.title,
-    description: property.description.slice(0, 160),
+    description,
+    alternates: { canonical: `/prona/${property.slug}` },
+    openGraph: {
+      type: "article",
+      title: property.title,
+      description,
+      url: `/prona/${property.slug}`,
+      images: image ? [{ url: image, alt: property.title }] : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title: property.title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
+}
+
+function propertyDescription(property: Property): string {
+  if (property.description.trim()) return property.description.trim().slice(0, 160);
+  const parts = [
+    `${KIND_LABELS[property.kind]} ${DEAL_LABELS[property.deal].toLowerCase()} në ${property.city}`,
+    property.area > 0 ? `${formatNumber(property.area)} m²` : "",
+    property.rooms > 0 ? `${property.rooms} dhoma` : "",
+    formatPrice(property.price, property.deal),
+  ].filter(Boolean);
+  return `${parts.join(", ")}. ${site.name}.`;
+}
+
+function propertyJsonLd(property: Property) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.title,
+    description: propertyDescription(property),
+    url: `${site.url}/prona/${property.slug}`,
+    image: property.images,
+    datePosted: property.createdAt,
+    offers: {
+      "@type": "Offer",
+      price: property.price,
+      priceCurrency: "EUR",
+      businessFunction:
+        property.deal === "qira"
+          ? "http://purl.org/goodrelations/v1#LeaseOut"
+          : "http://purl.org/goodrelations/v1#Sell",
+      availability: "https://schema.org/InStock",
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: property.address || undefined,
+      addressLocality: property.city,
+    },
+    ...(property.lat != null && property.lng != null
+      ? { geo: { "@type": "GeoCoordinates", latitude: property.lat, longitude: property.lng } }
+      : {}),
+    floorSize:
+      property.area > 0
+        ? { "@type": "QuantitativeValue", value: property.area, unitCode: "MTK" }
+        : undefined,
+    numberOfRooms: property.rooms > 0 ? property.rooms : undefined,
+    provider: { "@type": "RealEstateAgent", name: site.name, telephone: site.phone, url: site.url },
   };
 }
 
@@ -53,6 +116,10 @@ export default async function PropertyPage({ params }: Props) {
 
   return (
     <div className="container-page py-10 pb-28 lg:pb-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(propertyJsonLd(property)) }}
+      />
       <nav className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
         <Link href="/" className="hover:text-brand">
           Kryefaqja
@@ -96,12 +163,14 @@ export default async function PropertyPage({ params }: Props) {
             ))}
           </dl>
 
-          <section>
-            <h2 className="display text-2xl">Përshkrimi</h2>
-            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">
-              {property.description}
-            </p>
-          </section>
+          {property.description.trim() && (
+            <section>
+              <h2 className="display text-2xl">Përshkrimi</h2>
+              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">
+                {property.description}
+              </p>
+            </section>
+          )}
 
           {property.features.length > 0 && (
             <section>

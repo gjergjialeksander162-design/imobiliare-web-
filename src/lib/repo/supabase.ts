@@ -1,4 +1,4 @@
-import { slugify } from "@/lib/repo/filter";
+import { applyFilters, slugify } from "@/lib/repo/filter";
 import type { PropertyRepository } from "@/lib/repo/types";
 import type {
   Deal,
@@ -138,15 +138,6 @@ function query(filters: PropertyFilters): string {
   if (filters.maxPrice != null) params.append("price", `lte.${filters.maxPrice}`);
   if (filters.minRooms != null) params.append("rooms", `gte.${filters.minRooms}`);
   if (filters.minArea != null) params.append("area", `gte.${filters.minArea}`);
-  if (filters.q) {
-    const term = filters.q.replace(/[(),*]/g, " ").trim();
-    if (term) {
-      params.set(
-        "or",
-        `(title.ilike.*${term}*,description.ilike.*${term}*,city.ilike.*${term}*,address.ilike.*${term}*)`,
-      );
-    }
-  }
   switch (filters.sort) {
     case "price-asc":
       params.set("order", "price.asc");
@@ -160,12 +151,28 @@ function query(filters: PropertyFilters): string {
   return params.toString();
 }
 
+async function uniqueSlug(base: string, excludeId?: string): Promise<string> {
+  const rows = await request<Pick<PropertyRow, "id" | "slug">[]>(
+    `properties?select=id,slug&slug=like.${encodeURIComponent(`${base}*`)}`,
+  );
+  const taken = new Set(rows.filter((row) => row.id !== excludeId).map((row) => row.slug));
+  let slug = base || "prona";
+  let counter = 2;
+  while (taken.has(slug)) {
+    slug = `${base}-${counter}`;
+    counter += 1;
+  }
+  return slug;
+}
+
 export const supabaseRepository: PropertyRepository = {
   name: "supabase",
 
   async list(filters: PropertyFilters = {}) {
     const rows = await request<PropertyRow[]>(`properties?${query(filters)}`);
-    return rows.map(toProperty);
+    const properties = rows.map(toProperty);
+    // Kërkimi me tekst bëhet në memorie që "vlore" të gjejë "Vlorë" (Postgres ilike nuk injoron diakritikat).
+    return filters.q ? applyFilters(properties, { q: filters.q, sort: filters.sort }) : properties;
   },
 
   async featured(limit = 6) {
@@ -201,17 +208,21 @@ export const supabaseRepository: PropertyRepository = {
   },
 
   async create(input: PropertyInput) {
+    const row = toRow(input);
+    row.slug = await uniqueSlug(row.slug);
     const rows = await request<PropertyRow[]>("properties", {
       method: "POST",
-      body: JSON.stringify(toRow(input)),
+      body: JSON.stringify(row),
     });
     return toProperty(rows[0]);
   },
 
   async update(id: string, input: PropertyInput) {
+    const row = toRow(input);
+    row.slug = await uniqueSlug(row.slug, id);
     const rows = await request<PropertyRow[]>(
       `properties?id=eq.${encodeURIComponent(id)}`,
-      { method: "PATCH", body: JSON.stringify(toRow(input)) },
+      { method: "PATCH", body: JSON.stringify(row) },
     );
     return toProperty(rows[0]);
   },

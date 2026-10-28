@@ -6,6 +6,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Rreth nesh",
   description: site.description,
+  alternates: { canonical: "/rreth-nesh" },
 };
 
 const stats = [

@@ -27,8 +27,12 @@ export function ContactForm({
   }
 
   return (
-    <form action={action} className="space-y-3">
+    <form action={action} className="relative space-y-3">
       {propertyId && <input type="hidden" name="propertyId" value={propertyId} />}
+      <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden>
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" tabIndex={-1} autoComplete="off" />
+      </div>
 
       <div>
         <label className="label" htmlFor="name">

@@ -62,6 +62,15 @@ export async function submitInquiry(
   const phone = String(formData.get("phone") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
   const propertyId = String(formData.get("propertyId") ?? "").trim() || null;
+  const honeypot = String(formData.get("website") ?? "").trim();
+
+  // Fusha "website" është e padukshme për njerëzit; vetëm bot-ët e plotësojnë.
+  if (honeypot) {
+    return {
+      status: "success",
+      message: "Faleminderit! Një agjent do t'ju kontaktojë brenda 24 orëve.",
+    };
+  }
 
   if (!name || message.length < 5 || (!email && !phone)) {
     return {

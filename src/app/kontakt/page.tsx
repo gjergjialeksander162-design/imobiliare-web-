@@ -6,6 +6,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Kontakt",
   description: `Kontaktoni ${site.name} për shitje, qira ose vlerësim pronash.`,
+  alternates: { canonical: "/kontakt" },
 };
 
 export default function ContactPage() {

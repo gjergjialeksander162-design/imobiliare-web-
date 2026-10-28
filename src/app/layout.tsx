@@ -22,11 +22,28 @@ const serif = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "sq_AL",
+    title: `${site.name} — ${site.tagline}`,
+    description: site.description,
+    images: [{ url: "/images/hero-villa.jpg", width: 1600, height: 1067, alt: site.name }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.tagline}`,
+    description: site.description,
+    images: ["/images/hero-villa.jpg"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

@@ -48,7 +48,7 @@ function optionalFloat(value: FormDataEntryValue | null): number | null {
 
 function parseProperty(formData: FormData): PropertyInput | string {
   const title = String(formData.get("title") ?? "").trim();
-  const city = String(formData.get("city") ?? "").trim();
+  const city = String(formData.get("city") ?? "").trim().replace(/\s+/g, " ");
   const price = optionalFloat(formData.get("price"));
   const deal = DEALS.find((item) => item === formData.get("deal"));
   const kind = KINDS.find((item) => item === formData.get("kind"));

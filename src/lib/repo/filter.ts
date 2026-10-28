@@ -1,3 +1,4 @@
+import { matchesQuery } from "@/lib/text";
 import type { Property, PropertyFilters } from "@/lib/types";
 
 export function slugify(value: string): string {
@@ -26,16 +27,14 @@ function matches(property: Property, filters: PropertyFilters): boolean {
   if (filters.minRooms != null && property.rooms < filters.minRooms) return false;
   if (filters.minArea != null && property.area < filters.minArea) return false;
   if (filters.q) {
-    const needle = filters.q.toLowerCase();
     const haystack = [
       property.title,
       property.description,
       property.city,
       property.address,
-    ]
-      .join(" ")
-      .toLowerCase();
-    if (!haystack.includes(needle)) return false;
+      ...property.features,
+    ].join(" ");
+    if (!matchesQuery(haystack, filters.q)) return false;
   }
   return true;
 }
