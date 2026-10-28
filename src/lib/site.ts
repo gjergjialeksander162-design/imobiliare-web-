@@ -7,12 +7,13 @@ function siteUrl(): string {
 
 export const site = {
   url: siteUrl(),
-  name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Domus Grup",
+  name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Domus Real Estate",
+  brand: process.env.NEXT_PUBLIC_SITE_BRAND ?? "Domus",
   tagline: "Agjenci imobiliare — shitje, qira dhe konsulencë pronash",
   description:
     "Agjenci imobiliare me listime të verifikuara apartamentesh, vilash, trojeve dhe ambienteve biznesi në Shqipëri e Kosovë.",
   phone: process.env.NEXT_PUBLIC_SITE_PHONE ?? "+355 69 000 0000",
-  email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "info@domusgrup.al",
+  email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "info@domusrealestate.al",
   address:
     process.env.NEXT_PUBLIC_SITE_ADDRESS ?? "Rruga e Kavajës 118, Tiranë",
   hours: "Hën–Sht, 09:00–19:00",

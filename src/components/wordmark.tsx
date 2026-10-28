@@ -12,7 +12,7 @@ export function Wordmark({ size = "sm", block = true }: WordmarkProps) {
     return (
       <span className="inline-block text-left text-white">
         <span className="block whitespace-nowrap font-serif text-lg uppercase leading-none tracking-[0.2em] sm:text-xl">
-          {site.name}
+          {site.brand}
         </span>
         <span className="mt-1.5 block text-[9px] font-medium uppercase tracking-[0.3em] text-white/70">
           Real Estate
@@ -32,7 +32,7 @@ export function Wordmark({ size = "sm", block = true }: WordmarkProps) {
           isLarge ? "text-3xl sm:text-5xl" : "text-xl sm:text-3xl"
         }`}
       >
-        {site.name}
+        {site.brand}
       </span>
       <span
         className={`mt-3 flex items-center justify-center gap-3 font-medium uppercase tracking-[0.42em] text-gold-light ${
