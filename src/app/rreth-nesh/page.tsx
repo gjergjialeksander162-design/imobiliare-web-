@@ -19,7 +19,7 @@ const stats = [
 export default function AboutPage() {
   return (
     <div className="container-page py-14">
-      <p className="eyebrow">Agjencia</p>
+      <p className="eyebrow-rule">Agjencia</p>
       <h1 className="display mt-2 text-4xl sm:text-5xl">Rreth {site.name}</h1>
       <p className="mt-6 max-w-3xl text-sm leading-relaxed text-slate-700">
         Jemi agjenci imobiliare me fokus në ndërmjetësimin e shitjes dhe qirasë të
@@ -31,7 +31,7 @@ export default function AboutPage() {
       <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="border-t border-line pt-5">
-            <p className="font-serif text-4xl text-brand">{stat.value}</p>
+            <p className="font-serif text-4xl text-gold-dark">{stat.value}</p>
             <p className="mt-2 text-sm text-slate-600">{stat.label}</p>
           </div>
         ))}

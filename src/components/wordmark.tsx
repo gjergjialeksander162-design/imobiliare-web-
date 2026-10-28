@@ -35,13 +35,13 @@ export function Wordmark({ size = "sm", block = true }: WordmarkProps) {
         {site.name}
       </span>
       <span
-        className={`mt-3 flex items-center justify-center gap-3 font-medium uppercase tracking-[0.42em] ${
+        className={`mt-3 flex items-center justify-center gap-3 font-medium uppercase tracking-[0.42em] text-gold-light ${
           isLarge ? "text-xs" : "text-[10px] sm:text-[11px]"
         }`}
       >
-        <span className="h-px w-6 bg-white/55 sm:w-9" aria-hidden />
+        <span className="h-px w-6 bg-gold-light/80 sm:w-9" aria-hidden />
         Real Estate
-        <span className="h-px w-6 bg-white/55 sm:w-9" aria-hidden />
+        <span className="h-px w-6 bg-gold-light/80 sm:w-9" aria-hidden />
       </span>
     </span>
   );

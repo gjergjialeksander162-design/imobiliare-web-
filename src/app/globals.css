@@ -51,7 +51,36 @@ svg {
   }
 
   .eyebrow {
-    @apply text-[11px] font-semibold uppercase tracking-widest text-slate-500;
+    @apply text-[11px] font-semibold uppercase tracking-widest text-gold-dark;
+  }
+
+  .eyebrow-rule {
+    @apply eyebrow inline-flex items-center gap-3 before:h-px before:w-8 before:bg-gold;
+  }
+
+  .gold-rule {
+    @apply h-px w-14 bg-gold;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   .rule {
@@ -70,6 +99,18 @@ svg {
     @apply btn border border-brand bg-transparent text-brand hover:bg-brand hover:text-white;
   }
 
+  .btn-gold {
+    @apply btn bg-gold text-white hover:bg-gold-dark;
+  }
+
+  .btn-ghost-light {
+    @apply btn border border-white/60 text-white hover:border-white hover:bg-white hover:text-brand;
+  }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-brand transition hover:gap-3 hover:text-gold-dark;
+  }
+
   .field {
     @apply w-full min-h-11 border border-line bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-brand;
   }
@@ -80,6 +121,10 @@ svg {
 
   .card {
     @apply border border-line bg-white;
+  }
+
+  .card-lux {
+    @apply border border-line/80 bg-white shadow-card;
   }
 
   .no-scrollbar {

@@ -12,11 +12,11 @@ const links = [
 ];
 
 const navLinkClass =
-  "relative whitespace-nowrap py-1 text-white/80 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:mx-auto after:h-px after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full";
+  "relative whitespace-nowrap py-1 text-white/80 transition-colors hover:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:mx-auto after:h-px after:w-0 after:bg-gold-light after:transition-all after:duration-300 hover:after:w-full";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-30 bg-brand text-white">
+    <header className="sticky top-0 z-30 border-b border-gold/40 bg-brand text-white shadow-[0_10px_30px_-20px_rgba(0,0,0,0.6)]">
       <div className="bg-brand-dark">
         <div className="container-page flex items-center justify-between gap-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white/70">
           <span className="hidden sm:block">{site.address}</span>
@@ -40,7 +40,7 @@ export function SiteHeader() {
 
       <div className="container-page grid grid-cols-1 items-center gap-4 py-4 sm:py-6 lg:grid-cols-3">
         <div className="hidden flex-col gap-1 lg:flex">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/50">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold-light">
             Konsultë falas
           </span>
           <a
@@ -58,13 +58,13 @@ export function SiteHeader() {
         <div className="hidden items-center justify-end gap-3 lg:flex">
           <Link
             href="/prona"
-            className="btn border border-white/60 text-white hover:bg-white hover:text-brand"
+            className="btn-ghost-light"
           >
             Shiko pronat
           </Link>
           <Link
             href="/kontakt"
-            className="btn bg-white text-brand hover:bg-white/85"
+            className="btn-gold"
           >
             Kontakt
           </Link>
@@ -96,7 +96,7 @@ export function SiteHeader() {
               name="q"
               placeholder="Kërko: qytet, zonë, kod…"
               aria-label="Kërko prona"
-              className="w-56 bg-transparent px-3 py-2 text-xs text-white outline-none placeholder:text-white/50"
+              className="w-56 bg-transparent px-3 py-2 text-xs text-white outline-none placeholder:text-white/50 focus:placeholder:text-white/30"
             />
             <button
               type="submit"

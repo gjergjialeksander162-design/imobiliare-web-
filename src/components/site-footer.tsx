@@ -6,7 +6,7 @@ import { KINDS, KIND_LABELS } from "@/lib/types";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-brand text-white">
+    <footer className="border-t-2 border-gold/60 bg-brand text-white">
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Wordmark block={false} />
@@ -16,7 +16,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/60">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gold-light">
             Kategori
           </p>
           <ul className="mt-2 text-sm text-white/85">
@@ -34,7 +34,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/60">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gold-light">
             Faqe
           </p>
           <ul className="mt-2 text-sm text-white/85">
@@ -68,7 +68,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/60">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gold-light">
             Kontakt
           </p>
           <ul className="mt-4 space-y-1 break-words text-sm text-white/85">

@@ -36,15 +36,22 @@ export default async function PropertiesPage({
   ].filter(Boolean);
 
   return (
-    <div className="container-page py-14">
-      <p className="eyebrow">Portofoli</p>
-      <h1 className="display mt-2 text-4xl sm:text-5xl">Prona</h1>
-      <p className="mt-3 text-sm text-slate-600">
-        {properties.length} rezultate
-        {activeLabels.length > 0 ? ` · ${activeLabels.join(" · ")}` : ""}
-      </p>
+    <>
+      <div className="border-b border-line bg-ivory">
+        <div className="container-page py-12 sm:py-16">
+          <p className="eyebrow-rule">Portofoli</p>
+          <h1 className="display mt-3 text-4xl sm:text-5xl lg:text-6xl">
+            {filters.deal ? `Prona ${DEAL_LABELS[filters.deal].toLowerCase()}` : "Të gjitha pronat"}
+          </h1>
+          <p className="mt-4 text-sm text-slate-600">
+            {properties.length} {properties.length === 1 ? "rezultat" : "rezultate"}
+            {activeLabels.length > 0 ? ` · ${activeLabels.join(" · ")}` : ""}
+          </p>
+        </div>
+      </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-12">
+    <div className="container-page py-12">
+      <div className="grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-12">
         <aside className="lg:sticky lg:top-52 lg:h-fit">
           <FiltersPanel
             cities={cities}
@@ -74,14 +81,15 @@ export default async function PropertiesPage({
               </Link>
             </div>
           ) : (
-            <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
-              {properties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
+              {properties.map((property, index) => (
+                <PropertyCard key={property.id} property={property} priority={index < 3} />
               ))}
             </div>
           )}
         </section>
       </div>
     </div>
+    </>
   );
 }

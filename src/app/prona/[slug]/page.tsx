@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ContactForm } from "@/components/contact-form";
+import { IconArea, IconBath, IconBed, IconPin } from "@/components/icons";
+import { ShareButtons } from "@/components/share-buttons";
 import { Gallery } from "@/components/gallery";
 import { MobileActions } from "@/components/mobile-actions";
 import { PropertyCard } from "@/components/property-card";
@@ -109,6 +111,11 @@ export default async function PropertyPage({ params }: Props) {
     { label: "Tipi", value: KIND_LABELS[property.kind] },
   ];
 
+  const pricePerSqm =
+    property.area > 0
+      ? formatPrice(Math.round(property.price / property.area), "shitje")
+      : null;
+
   const mapSrc =
     property.lat != null && property.lng != null
       ? `https://www.openstreetmap.org/export/embed.html?bbox=${property.lng - 0.01}%2C${property.lat - 0.008}%2C${property.lng + 0.01}%2C${property.lat + 0.008}&layer=mapnik&marker=${property.lat}%2C${property.lng}`
@@ -137,28 +144,56 @@ export default async function PropertyPage({ params }: Props) {
 
           <div>
             <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
-              <span className="text-brand">{DEAL_LABELS[property.deal]}</span>
+              <span className="bg-brand px-2.5 py-1 text-white">{DEAL_LABELS[property.deal]}</span>
+              <span className="text-gold-dark">{KIND_LABELS[property.kind]}</span>
               <span>Publikuar më {formatDate(property.createdAt)}</span>
             </div>
-            <h1 className="display mt-4 break-words text-3xl sm:text-4xl">
+            <h1 className="display mt-5 break-words text-3xl sm:text-4xl lg:text-5xl">
               {property.title}
             </h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-3 inline-flex items-center gap-2 text-sm text-slate-600">
+              <IconPin className="text-gold-dark" />
               {property.address ? `${property.address}, ` : ""}
               {property.city}
             </p>
-            <p className="mt-4 font-serif text-4xl text-brand">
-              {formatPrice(property.price, property.deal)}
-            </p>
+            <div className="mt-6 flex flex-wrap items-end justify-between gap-4 border-y border-line py-5">
+              <div>
+                <p className="font-serif text-4xl text-brand sm:text-5xl">
+                  {formatPrice(property.price, property.deal)}
+                </p>
+                {pricePerSqm && (
+                  <p className="mt-1 text-xs tracking-wider text-slate-500">
+                    ≈ {pricePerSqm} / m²
+                  </p>
+                )}
+              </div>
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-700">
+                {property.area > 0 && (
+                  <li className="inline-flex items-center gap-2">
+                    <IconArea className="text-gold-dark" /> {formatNumber(property.area)} m²
+                  </li>
+                )}
+                {property.rooms > 0 && (
+                  <li className="inline-flex items-center gap-2">
+                    <IconBed className="text-gold-dark" /> {property.rooms} dhoma
+                  </li>
+                )}
+                {property.baths > 0 && (
+                  <li className="inline-flex items-center gap-2">
+                    <IconBath className="text-gold-dark" /> {property.baths} banjo
+                  </li>
+                )}
+              </ul>
+            </div>
           </div>
 
           <dl className="grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3">
             {specs.map((spec) => (
               <div key={spec.label} className="bg-white p-5">
-                <dt className="text-[11px] uppercase tracking-widest text-slate-500">
+                <dt className="text-[11px] uppercase tracking-widest text-gold-dark">
                   {spec.label}
                 </dt>
-                <dd className="mt-1 font-serif text-xl">{spec.value}</dd>
+                <dd className="mt-1 font-serif text-2xl text-brand">{spec.value}</dd>
               </div>
             ))}
           </dl>
@@ -179,7 +214,7 @@ export default async function PropertyPage({ params }: Props) {
                 {property.features.map((feature) => (
                   <li
                     key={feature}
-                    className="border border-line px-3 py-1.5 text-xs uppercase tracking-wider text-slate-600"
+                    className="border border-line bg-ivory px-3 py-1.5 text-xs uppercase tracking-wider text-slate-700"
                   >
                     {feature}
                   </li>
@@ -202,25 +237,37 @@ export default async function PropertyPage({ params }: Props) {
         </div>
 
         <aside id="kontakt-prone" className="scroll-mt-40 lg:sticky lg:top-52 lg:h-fit">
-          <div className="card space-y-4 p-5 sm:p-6">
+          <div className="card-lux space-y-4 border-t-2 border-t-gold p-5 sm:p-6">
             <div>
-              <h2 className="display text-xl">Interesuar për këtë pronë?</h2>
+              <p className="eyebrow">Kërkesë vizite</p>
+              <h2 className="display mt-2 text-2xl">Interesuar për këtë pronë?</h2>
               <p className="mt-2 text-sm text-slate-600">
-                Telefononi {site.phone} ose dërgoni kërkesën më poshtë.
+                Telefononi{" "}
+                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="text-brand">
+                  {site.phone}
+                </a>{" "}
+                ose dërgoni kërkesën më poshtë — përgjigje brenda 24 orëve.
               </p>
             </div>
             <ContactForm
               propertyId={property.id}
               defaultMessage={`Përshëndetje, dua më shumë informacion për pronën “${property.title}”.`}
             />
+            <div className="border-t border-line pt-4">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+                Ndaje këtë pronë
+              </p>
+              <ShareButtons title={property.title} path={`/prona/${property.slug}`} />
+            </div>
           </div>
         </aside>
       </div>
 
       {similar.length > 0 && (
         <section className="mt-20 border-t border-line pt-10">
-          <h2 className="display text-3xl">Prona të ngjashme në {property.city}</h2>
-          <div className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="eyebrow-rule">Të ngjashme</p>
+          <h2 className="display mt-3 text-3xl">Prona të tjera në {property.city}</h2>
+          <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((item) => (
               <PropertyCard key={item.id} property={item} />
             ))}
