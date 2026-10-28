@@ -54,7 +54,6 @@ export default async function HomePage() {
       <section className="relative isolate flex min-h-[82svh] items-end overflow-hidden bg-brand-dark sm:min-h-[88svh]">
         <video
           className="absolute inset-0 h-full w-full object-cover"
-          src="/video/hero-villa.mp4"
           poster="/images/hero-villa.jpg"
           autoPlay
           muted
@@ -62,7 +61,10 @@ export default async function HomePage() {
           playsInline
           preload="metadata"
           aria-hidden
-        />
+        >
+          <source src="/video/hero-villa-1080.mp4" media="(min-width: 768px)" type="video/mp4" />
+          <source src="/video/hero-villa-720.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-brand-dark/30" />
         <div className="container-page relative pb-28 pt-24 text-white sm:pb-36 sm:pt-32">
           <p className="animate-fadein inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-light">
