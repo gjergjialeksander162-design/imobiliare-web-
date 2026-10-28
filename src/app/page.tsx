@@ -205,7 +205,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-brand-dark/60" />
         <div className="container-page relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
           <Reveal>
-            <p className="eyebrow-rule text-gold-light before:bg-gold-light">Pse Domus Grup</p>
+            <p className="eyebrow-rule text-gold-light before:bg-gold-light">Pse Domus</p>
             <h2 className="display mt-4 text-3xl sm:text-4xl lg:text-5xl">
               Pak prona. Shumë kujdes.
             </h2>
