@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { IconArea, IconBath, IconBed } from "@/components/icons";
-import { formatNumber, formatPrice } from "@/lib/format";
+import { formatLek, formatNumber, formatPrice } from "@/lib/format";
 import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
 
 export function PropertyCard({
@@ -29,9 +29,12 @@ export function PropertyCard({
         <span className="absolute left-4 top-4 bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-brand">
           {DEAL_LABELS[property.deal]}
         </span>
-        <p className="absolute bottom-4 left-4 font-serif text-2xl text-white drop-shadow">
-          {formatPrice(property.price, property.deal)}
-        </p>
+        <div className="absolute bottom-4 left-4 text-white drop-shadow">
+          <p className="font-serif text-2xl">{formatPrice(property.price, property.deal)}</p>
+          <p className="text-[11px] font-medium tracking-wider text-white/80">
+            ≈ {formatLek(property.price, property.deal)}
+          </p>
+        </div>
       </div>
 
       <div className="pt-5">

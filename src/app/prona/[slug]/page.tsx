@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import { Gallery } from "@/components/gallery";
 import { MobileActions } from "@/components/mobile-actions";
 import { PropertyCard } from "@/components/property-card";
-import { formatDate, formatNumber, formatPrice } from "@/lib/format";
+import { formatDate, formatLek, formatNumber, formatPrice } from "@/lib/format";
 import { getRepository } from "@/lib/repo";
 import { site } from "@/lib/site";
 import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
@@ -160,6 +160,9 @@ export default async function PropertyPage({ params }: Props) {
               <div>
                 <p className="font-serif text-4xl text-brand sm:text-5xl">
                   {formatPrice(property.price, property.deal)}
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  ≈ {formatLek(property.price, property.deal)}
                 </p>
                 {pricePerSqm && (
                   <p className="mt-1 text-xs tracking-wider text-slate-500">
