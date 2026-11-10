@@ -72,7 +72,7 @@ export function PropertyForm({
 
         <div>
           <label className="label" htmlFor="price">
-            Çmimi (€) *
+            Çmimi (€) * <span className="normal-case tracking-normal text-slate-400">— në faqe del edhe në Lek automatikisht</span>
           </label>
           <input
             id="price"
