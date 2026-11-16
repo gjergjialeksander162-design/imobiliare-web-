@@ -69,7 +69,7 @@ export default async function HomePage() {
         <div className="container-page relative pb-28 pt-24 text-white sm:pb-36 sm:pt-32">
           <p className="animate-fadein inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-light">
             <span className="h-px w-10 bg-gold-light" aria-hidden />
-            Shqipëri · Kosovë
+            Shqipëri
           </p>
           <h1 className="display mt-6 max-w-4xl text-5xl text-white sm:text-6xl lg:text-7xl">
             Prona të përzgjedhura, <em className="font-light italic text-gold-light">shërbim</em> i
