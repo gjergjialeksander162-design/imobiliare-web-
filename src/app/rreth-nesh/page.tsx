@@ -9,13 +9,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/rreth-nesh" },
 };
 
-const stats = [
-  { value: "12+", label: "vite në tregun imobiliar" },
-  { value: "850+", label: "transaksione të përfunduara" },
-  { value: "6", label: "qytete me mbulim aktiv" },
-  { value: "24h", label: "kohë përgjigjeje për kërkesat" },
-];
-
 export default function AboutPage() {
   return (
     <div className="container-page py-14">
@@ -27,15 +20,6 @@ export default function AboutPage() {
         verifikimit të dokumentacionit të pronësisë, kështu që klientët tanë
         shikojnë oferta reale me çmime të krahasueshme me tregun.
       </p>
-
-      <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="border-t border-line pt-5">
-            <p className="font-serif text-4xl text-gold-dark">{stat.value}</p>
-            <p className="mt-2 text-sm text-slate-600">{stat.label}</p>
-          </div>
-        ))}
-      </div>
 
       <div className="mt-14 grid gap-8 lg:grid-cols-2">
         <section className="card p-8">

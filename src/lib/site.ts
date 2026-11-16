@@ -12,7 +12,7 @@ export const site = {
   tagline: "Agjenci imobiliare — shitje, qira dhe konsulencë pronash",
   description:
     "Agjenci imobiliare me listime të verifikuara apartamentesh, vilash, trojeve dhe ambienteve biznesi në Shqipëri e Kosovë.",
-  phone: process.env.NEXT_PUBLIC_SITE_PHONE ?? "+355 69 000 0000",
+  phone: process.env.NEXT_PUBLIC_SITE_PHONE ?? "+355 69 858 3333",
   email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "info@domusrealestate.app",
   address:
     process.env.NEXT_PUBLIC_SITE_ADDRESS ?? "Rruga e Kavajës 118, Tiranë",

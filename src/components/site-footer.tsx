@@ -59,11 +59,6 @@ export function SiteFooter() {
                 Kontakt
               </Link>
             </li>
-            <li>
-              <Link href="/admin" className="inline-flex min-h-10 items-center hover:text-white">
-                Panel administrimi
-              </Link>
-            </li>
           </ul>
         </div>
 
