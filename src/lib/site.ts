@@ -11,7 +11,7 @@ export const site = {
   brand: process.env.NEXT_PUBLIC_SITE_BRAND ?? "Domus",
   tagline: "Agjenci imobiliare — shitje, qira dhe konsulencë pronash",
   description:
-    "Agjenci imobiliare me listime të verifikuara apartamentesh, vilash, trojeve dhe ambienteve biznesi në Shqipëri e Kosovë.",
+    "Agjenci imobiliare me listime të verifikuara apartamentesh, vilash, trojeve dhe ambienteve biznesi në Shqipëri.",
   phone: process.env.NEXT_PUBLIC_SITE_PHONE ?? "+355 69 858 3333",
   email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "info@domusrealestate.app",
   address:

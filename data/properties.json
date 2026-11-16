@@ -62,37 +62,6 @@
     "createdAt": "2026-08-30T01:33:30.741Z"
   },
   {
-    "id": "0bb1711a-4023-4ebb-9457-b85cbc79a56b",
-    "slug": "vile-3-kateshe-me-oborr-prishtine",
-    "title": "Vilë 3-katëshe me oborr, Prishtinë",
-    "description": "Vilë individuale në lagjen Arbëri, 320 m² sipërfaqe banimi dhe 450 m² oborr me kopsht. Garazh i dyfishtë, bodrum, sistem ngrohjeje me dysheme dhe panele solare.",
-    "price": 395000,
-    "deal": "shitje",
-    "kind": "vile",
-    "city": "Prishtinë",
-    "address": "Lagjja Arbëri, rr. Muharrem Fejza",
-    "rooms": 6,
-    "baths": 4,
-    "area": 320,
-    "floor": null,
-    "year": 2021,
-    "features": [
-      "Oborr",
-      "Garazh",
-      "Panele solare",
-      "Ngrohje nën dysheme"
-    ],
-    "images": [
-      "/images/prona-3.svg",
-      "/images/prona-7.svg",
-      "/images/prona-1.svg"
-    ],
-    "lat": 42.6489,
-    "lng": 21.1387,
-    "featured": true,
-    "createdAt": "2026-08-29T13:33:30.741Z"
-  },
-  {
     "id": "56a5b4e5-4c0e-4d85-9ac2-cc7c39357bba",
     "slug": "zyre-120-m-ne-kulle-biznesi-tirane",
     "title": "Zyrë 120 m² në kullë biznesi, Tiranë",
@@ -208,36 +177,5 @@
     "lng": 19.8631,
     "featured": false,
     "createdAt": "2026-08-27T13:33:30.741Z"
-  },
-  {
-    "id": "e35d221d-4517-47ba-bbde-699e6e76b5d1",
-    "slug": "apartament-3-1-duplex-prishtine",
-    "title": "Apartament 3+1 duplex, Prishtinë",
-    "description": "Duplex në dy nivele te Bregu i Diellit, 145 m² neto me tarracë 30 m². Ndërtesë e re, dorëzim me çelës në dorë, mundësi financimi bankar.",
-    "price": 168000,
-    "deal": "shitje",
-    "kind": "apartament",
-    "city": "Prishtinë",
-    "address": "Bregu i Diellit, rr. Mark Isaku",
-    "rooms": 4,
-    "baths": 2,
-    "area": 145,
-    "floor": 7,
-    "year": 2024,
-    "features": [
-      "Duplex",
-      "Tarracë",
-      "Ndërtesë e re",
-      "Ashensor"
-    ],
-    "images": [
-      "/images/prona-8.svg",
-      "/images/prona-2.svg",
-      "/images/prona-6.svg"
-    ],
-    "lat": 42.6486,
-    "lng": 21.1782,
-    "featured": true,
-    "createdAt": "2026-08-27T01:33:30.741Z"
   }
 ]
