@@ -280,7 +280,7 @@ export default async function HomePage() {
               Pronarë
             </p>
             <h2 className="display mx-auto mt-5 max-w-2xl text-3xl sm:text-4xl lg:text-5xl">
-              Dëshironi të shitni ose jepni me qira pronën tuaj?
+              Dëshironi të shisni ose jepni me qira pronën tuaj?
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/75">
               Dërgoni të dhënat dhe një agjent kthen përgjigje brenda 24 orëve, me vlerësim
