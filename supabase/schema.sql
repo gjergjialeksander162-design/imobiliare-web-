@@ -54,3 +54,8 @@ create policy "inquiries insert public" on public.inquiries for insert with chec
 insert into storage.buckets (id, name, public)
 values ('property-images', 'property-images', true)
 on conflict (id) do nothing;
+
+-- Monedha e çmimit (EUR ose ALL) dhe prona kryesore e kryefaqes.
+alter table public.properties
+  add column if not exists currency text not null default 'EUR' check (currency in ('EUR', 'ALL')),
+  add column if not exists spotlight boolean not null default false;

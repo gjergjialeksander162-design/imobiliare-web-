@@ -5,7 +5,7 @@ import { IconArrow, IconCheck, IconChevronDown } from "@/components/icons";
 import { PropertyCard } from "@/components/property-card";
 import { Reveal } from "@/components/reveal";
 import { SearchFilters } from "@/components/search-filters";
-import { formatLek, formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { getRepository } from "@/lib/repo";
 import { site } from "@/lib/site";
 import { DEAL_LABELS, KINDS, KIND_LABELS } from "@/lib/types";
@@ -41,10 +41,7 @@ export default async function HomePage() {
     repo.cities(),
     repo.list(),
   ]);
-  const spotlight = featured.reduce<(typeof featured)[number] | undefined>(
-    (best, property) => (!best || property.price > best.price ? property : best),
-    undefined,
-  );
+  const spotlight = all.find((property) => property.spotlight) ?? featured[0];
   const grid = featured.filter((property) => property.id !== spotlight?.id).slice(0, 6);
   const forSale = all.filter((property) => property.deal === "shitje").length;
   const forRent = all.length - forSale;
@@ -162,10 +159,7 @@ export default async function HomePage() {
                 <div className="mt-10 flex flex-wrap items-end justify-between gap-6 border-t border-white/15 pt-6">
                   <div>
                     <p className="font-serif text-4xl text-gold-light">
-                      {formatPrice(spotlight.price, spotlight.deal)}
-                    </p>
-                    <p className="mt-1 text-xs tracking-wider text-white/70">
-                      ≈ {formatLek(spotlight.price, spotlight.deal)}
+                      {formatPrice(spotlight.price, spotlight.deal, spotlight.currency)}
                     </p>
                   </div>
                   <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-white transition group-hover:gap-3">

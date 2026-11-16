@@ -62,6 +62,7 @@ function parseProperty(formData: FormData): PropertyInput | string {
     title,
     description: String(formData.get("description") ?? "").trim(),
     price,
+    currency: formData.get("currency") === "ALL" ? "ALL" : "EUR",
     deal,
     kind,
     city,
@@ -76,6 +77,7 @@ function parseProperty(formData: FormData): PropertyInput | string {
     lat: optionalFloat(formData.get("lat")),
     lng: optionalFloat(formData.get("lng")),
     featured: formData.get("featured") === "on",
+    spotlight: formData.get("spotlight") === "on",
     slug: String(formData.get("slug") ?? "").trim(),
   };
 }
@@ -107,6 +109,7 @@ export async function savePropertyAction(
     };
   }
 
+  revalidatePath("/");
   revalidatePath("/admin");
   revalidatePath("/prona");
   redirect("/admin");

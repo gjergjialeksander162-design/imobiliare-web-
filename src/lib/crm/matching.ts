@@ -1,3 +1,4 @@
+import { priceInEur } from "@/lib/format";
 import type { Lead } from "@/lib/crm/types";
 import { getRepository } from "@/lib/repo";
 import type { Property } from "@/lib/types";
@@ -11,8 +12,8 @@ export async function matchProperties(lead: Lead, limit = 6): Promise<Property[]
       if (lead.city && property.city.toLowerCase() !== lead.city.toLowerCase()) {
         return false;
       }
-      if (lead.budgetMin != null && property.price < lead.budgetMin) return false;
-      if (lead.budgetMax != null && property.price > lead.budgetMax) return false;
+      if (lead.budgetMin != null && priceInEur(property) < lead.budgetMin) return false;
+      if (lead.budgetMax != null && priceInEur(property) > lead.budgetMax) return false;
       if (lead.minRooms != null && property.rooms < lead.minRooms) return false;
       return true;
     })

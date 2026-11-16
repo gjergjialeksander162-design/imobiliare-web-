@@ -32,7 +32,12 @@ async function writeJson(file: string, value: unknown): Promise<void> {
 }
 
 async function readProperties(): Promise<Property[]> {
-  return readJson<Property[]>(propertiesFile, []);
+  const rows = await readJson<Property[]>(propertiesFile, []);
+  return rows.map((row) => ({
+    ...row,
+    currency: row.currency === "ALL" ? "ALL" : "EUR",
+    spotlight: row.spotlight ?? false,
+  }));
 }
 
 function uniqueSlug(base: string, taken: Set<string>): string {
@@ -82,7 +87,10 @@ export const localRepository: PropertyRepository = {
       slug: uniqueSlug(slugify(input.slug || input.title), taken),
       createdAt: new Date().toISOString(),
     };
-    await writeJson(propertiesFile, [property, ...properties]);
+    const others = property.spotlight
+      ? properties.map((item) => ({ ...item, spotlight: false }))
+      : properties;
+    await writeJson(propertiesFile, [property, ...others]);
     return property;
   },
 
@@ -98,8 +106,10 @@ export const localRepository: PropertyRepository = {
       ...input,
       slug: uniqueSlug(slugify(input.slug || input.title), taken),
     };
-    properties[index] = updated;
-    await writeJson(propertiesFile, properties);
+    const next = properties.map((item, i) =>
+      i === index ? updated : updated.spotlight ? { ...item, spotlight: false } : item,
+    );
+    await writeJson(propertiesFile, next);
     return updated;
   },
 

@@ -359,7 +359,7 @@ export default async function ClientDetailPage({
                             </Link>
                             <p className="text-xs text-slate-500">
                               {property.city} · {property.rooms} dhoma ·{" "}
-                              {formatPrice(property.price, property.deal)}
+                              {formatPrice(property.price, property.deal, property.currency)}
                             </p>
                           </li>
                         ))}

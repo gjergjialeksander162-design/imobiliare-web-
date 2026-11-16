@@ -9,6 +9,8 @@ import { ImageUploader } from "@/components/image-uploader";
 import {
   DEALS,
   DEAL_LABELS,
+  CURRENCIES,
+  CURRENCY_LABELS,
   KINDS,
   KIND_LABELS,
   type Property,
@@ -72,19 +74,36 @@ export function PropertyForm({
 
         <div>
           <label className="label" htmlFor="price">
-            Çmimi (€) * <span className="normal-case tracking-normal text-slate-400">— në faqe del edhe në Lek automatikisht</span>
+            Çmimi *
           </label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            inputMode="numeric"
-            min={0}
-            step="any"
-            required
-            defaultValue={property?.price}
-            className="field"
-          />
+          <div className="flex gap-2">
+            <input
+              id="price"
+              name="price"
+              type="number"
+              inputMode="numeric"
+              min={0}
+              step="any"
+              required
+              defaultValue={property?.price}
+              className="field min-w-0 flex-1"
+            />
+            <select
+              name="currency"
+              aria-label="Monedha"
+              defaultValue={property?.currency ?? "EUR"}
+              className="field w-32 flex-none"
+            >
+              {CURRENCIES.map((currency) => (
+                <option key={currency} value={currency}>
+                  {CURRENCY_LABELS[currency]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <p className="mt-1 text-xs text-slate-500">
+            Në faqe del vetëm në monedhën që zgjedh këtu, pa konvertim.
+          </p>
         </div>
 
         <div>
@@ -274,6 +293,21 @@ export function PropertyForm({
           className="h-4 w-4 rounded border-slate-300"
         />
         Shfaq në &quot;Prona të zgjedhura&quot;
+      </label>
+
+      <label className="flex items-start gap-2 text-sm font-medium text-slate-700">
+        <input
+          type="checkbox"
+          name="spotlight"
+          defaultChecked={property?.spotlight}
+          className="mt-0.5 h-4 w-4 rounded border-slate-300"
+        />
+        <span>
+          Prona kryesore në kryefaqe (kutia e madhe)
+          <span className="block text-xs font-normal text-slate-500">
+            Vetëm një pronë mund të jetë kryesore; kur e shënon këtë, hiqet nga prona e mëparshme.
+          </span>
+        </span>
       </label>
 
       {state.status === "error" && (

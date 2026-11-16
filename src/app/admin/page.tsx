@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { deletePropertyAction, logoutAction } from "@/app/admin/actions";
 import { LoginForm } from "@/app/admin/login-form";
-import { formatDate, formatLek, formatPrice } from "@/lib/format";
+import { formatDate, formatPrice } from "@/lib/format";
 import { isAuthenticated } from "@/lib/auth";
 import { getRepository } from "@/lib/repo";
 import { DEAL_LABELS, KIND_LABELS } from "@/lib/types";
@@ -82,13 +82,13 @@ export default async function AdminPage() {
                     <p className="text-xs text-slate-500">
                       {DEAL_LABELS[property.deal]}
                       {property.featured ? " · e zgjedhur" : ""}
+                      {property.spotlight ? " · kryesore" : ""}
                     </p>
                   </td>
                   <td className="px-4 py-3">{property.city}</td>
                   <td className="px-4 py-3">{KIND_LABELS[property.kind]}</td>
                   <td className="px-4 py-3">
-                    {formatPrice(property.price, property.deal)}
-                    <p className="text-xs text-slate-500">≈ {formatLek(property.price, property.deal)}</p>
+                    {formatPrice(property.price, property.deal, property.currency)}
                   </td>
                   <td className="px-4 py-3 text-slate-500">{formatDate(property.createdAt)}</td>
                   <td className="px-4 py-3">

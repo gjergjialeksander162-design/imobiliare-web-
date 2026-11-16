@@ -1,4 +1,4 @@
-import type { Deal } from "@/lib/types";
+import type { Currency, Deal } from "@/lib/types";
 
 const currency = new Intl.NumberFormat("sq-AL", {
   style: "currency",
@@ -8,21 +8,20 @@ const currency = new Intl.NumberFormat("sq-AL", {
 
 const number = new Intl.NumberFormat("sq-AL", { maximumFractionDigits: 0 });
 
-/** Kursi EUR → Lek (ALL); ndryshohet me NEXT_PUBLIC_EUR_ALL_RATE në Vercel. */
+/**
+ * Kursi EUR → Lek. Përdoret vetëm për të krahasuar çmime me monedha të ndryshme
+ * (filtra, renditje, përputhje në CRM); në faqe nuk shfaqet asnjë çmim i konvertuar.
+ */
 export const EUR_ALL_RATE = Number(process.env.NEXT_PUBLIC_EUR_ALL_RATE) || 98;
 
-export function toLek(priceEur: number): number {
-  return Math.round((priceEur * EUR_ALL_RATE) / 1000) * 1000;
+export function priceInEur(property: { price: number; currency: Currency }): number {
+  return property.currency === "ALL" ? property.price / EUR_ALL_RATE : property.price;
 }
 
-/** Çmimi në Lek, i rrumbullakosur në mijëra: "8 430 000 L" (+ "/muaj" për qira). */
-export function formatLek(priceEur: number, deal: Deal): string {
-  const value = `${number.format(toLek(priceEur))} L`;
-  return deal === "qira" ? `${value}/muaj` : value;
-}
-
-export function formatPrice(price: number, deal: Deal): string {
-  const value = currency.format(price);
+/** Çmimi në monedhën e pronës: "86 000 €" ose "8 500 000 L" (+ "/muaj" për qira). */
+export function formatPrice(price: number, deal: Deal, priceCurrency: Currency = "EUR"): string {
+  const value =
+    priceCurrency === "ALL" ? `${number.format(price)} L` : currency.format(price);
   return deal === "qira" ? `${value}/muaj` : value;
 }
 
