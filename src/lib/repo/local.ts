@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { applyFilters, slugify } from "@/lib/repo/filter";
+import { uniqueCities } from "@/lib/text";
 import type { PropertyRepository } from "@/lib/repo/types";
 import type {
   Inquiry,
@@ -69,9 +70,7 @@ export const localRepository: PropertyRepository = {
 
   async cities() {
     const properties = await readProperties();
-    return [...new Set(properties.map((property) => property.city))].sort((a, b) =>
-      a.localeCompare(b),
-    );
+    return uniqueCities(properties.map((property) => property.city));
   },
 
   async create(input: PropertyInput) {

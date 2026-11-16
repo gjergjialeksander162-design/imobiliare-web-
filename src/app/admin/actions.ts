@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import type { FormState } from "@/app/admin/form-state";
 import { endSession, isAuthenticated, startSession, verifyPassword } from "@/lib/auth";
 import { getRepository } from "@/lib/repo";
+import { canonicalCity } from "@/lib/text";
 import { DEALS, KINDS, type PropertyInput } from "@/lib/types";
 
 export async function loginAction(
@@ -48,7 +49,7 @@ function optionalFloat(value: FormDataEntryValue | null): number | null {
 
 function parseProperty(formData: FormData): PropertyInput | string {
   const title = String(formData.get("title") ?? "").trim();
-  const city = String(formData.get("city") ?? "").trim().replace(/\s+/g, " ");
+  const city = canonicalCity(String(formData.get("city") ?? ""));
   const price = optionalFloat(formData.get("price"));
   const deal = DEALS.find((item) => item === formData.get("deal"));
   const kind = KINDS.find((item) => item === formData.get("kind"));

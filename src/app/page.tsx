@@ -109,7 +109,7 @@ export default async function HomePage() {
         <dl className="grid grid-cols-2 gap-8 border-y border-line py-8 sm:grid-cols-4">
           {[
             { value: String(all.length), label: "prona të verifikuara" },
-            { value: String(cities.length), label: "qytete me mbulim" },
+            { value: String(cities.length), label: cities.length === 1 ? "qytet me mbulim" : "qytete me mbulim" },
             { value: String(forSale), label: "në shitje" },
             { value: String(forRent), label: "me qira" },
           ].map((item, index) => (
@@ -280,7 +280,7 @@ export default async function HomePage() {
               Pronarë
             </p>
             <h2 className="display mx-auto mt-5 max-w-2xl text-3xl sm:text-4xl lg:text-5xl">
-              Dëshironi të shitni ose jepni me qira pronën tuaj?
+              Dëshironi të shisni ose jepni me qira pronën tuaj?
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/75">
               Dërgoni të dhënat dhe një agjent kthen përgjigje brenda 24 orëve, me vlerësim
