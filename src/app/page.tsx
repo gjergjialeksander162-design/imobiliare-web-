@@ -109,7 +109,7 @@ export default async function HomePage() {
         <dl className="grid grid-cols-2 gap-8 border-y border-line py-8 sm:grid-cols-4">
           {[
             { value: String(all.length), label: "prona të verifikuara" },
-            { value: String(cities.length), label: "qytete me mbulim" },
+            { value: String(cities.length), label: cities.length === 1 ? "qytet me mbulim" : "qytete me mbulim" },
             { value: String(forSale), label: "në shitje" },
             { value: String(forRent), label: "me qira" },
           ].map((item, index) => (

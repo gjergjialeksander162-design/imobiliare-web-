@@ -1,4 +1,5 @@
 import { applyFilters, slugify } from "@/lib/repo/filter";
+import { canonicalCity, uniqueCities } from "@/lib/text";
 import type { PropertyRepository } from "@/lib/repo/types";
 import type {
   Deal,
@@ -89,7 +90,7 @@ function toProperty(row: PropertyRow): Property {
     price: Number(row.price),
     deal: row.deal,
     kind: row.kind,
-    city: row.city,
+    city: canonicalCity(row.city),
     address: row.address ?? "",
     rooms: row.rooms ?? 0,
     baths: row.baths ?? 0,
@@ -113,7 +114,7 @@ function toRow(input: PropertyInput): Omit<PropertyRow, "id" | "created_at"> {
     price: input.price,
     deal: input.deal,
     kind: input.kind,
-    city: input.city,
+    city: canonicalCity(input.city),
     address: input.address,
     rooms: input.rooms,
     baths: input.baths,
@@ -128,10 +129,14 @@ function toRow(input: PropertyInput): Omit<PropertyRow, "id" | "created_at"> {
   };
 }
 
-function query(filters: PropertyFilters): string {
+function query(filters: PropertyFilters, cityVariants: string[] = []): string {
   const params = new URLSearchParams();
   params.set("select", "*");
-  if (filters.city) params.append("city", `eq.${filters.city}`);
+  if (filters.city) {
+    const variants = cityVariants.length > 0 ? cityVariants : [filters.city];
+    const quoted = variants.map((city) => `"${city.replace(/"/g, '\\"')}"`).join(",");
+    params.append("city", `in.(${quoted})`);
+  }
   if (filters.kind) params.append("kind", `eq.${filters.kind}`);
   if (filters.deal) params.append("deal", `eq.${filters.deal}`);
   if (filters.minPrice != null) params.append("price", `gte.${filters.minPrice}`);
@@ -169,7 +174,19 @@ export const supabaseRepository: PropertyRepository = {
   name: "supabase",
 
   async list(filters: PropertyFilters = {}) {
-    const rows = await request<PropertyRow[]>(`properties?${query(filters)}`);
+    let cityVariants: string[] = [];
+    if (filters.city) {
+      const wanted = canonicalCity(filters.city);
+      const cityRows = await request<Pick<PropertyRow, "city">[]>("properties?select=city");
+      cityVariants = [
+        ...new Set(
+          cityRows.map((row) => row.city).filter((city) => canonicalCity(city) === wanted),
+        ),
+      ];
+    }
+    const rows = await request<PropertyRow[]>(
+      `properties?${query(filters, cityVariants)}`,
+    );
     const properties = rows.map(toProperty);
     // Kërkimi me tekst bëhet në memorie që "vlore" të gjejë "Vlorë" (Postgres ilike nuk injoron diakritikat).
     return filters.q ? applyFilters(properties, { q: filters.q, sort: filters.sort }) : properties;
@@ -204,7 +221,7 @@ export const supabaseRepository: PropertyRepository = {
     const rows = await request<Pick<PropertyRow, "city">[]>(
       "properties?select=city&order=city.asc",
     );
-    return [...new Set(rows.map((row) => row.city))];
+    return uniqueCities(rows.map((row) => row.city));
   },
 
   async create(input: PropertyInput) {

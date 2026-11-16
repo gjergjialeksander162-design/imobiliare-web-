@@ -1,4 +1,4 @@
-import { matchesQuery } from "@/lib/text";
+import { canonicalCity, matchesQuery } from "@/lib/text";
 import type { Property, PropertyFilters } from "@/lib/types";
 
 export function slugify(value: string): string {
@@ -19,7 +19,7 @@ export function slugify(value: string): string {
 }
 
 function matches(property: Property, filters: PropertyFilters): boolean {
-  if (filters.city && property.city !== filters.city) return false;
+  if (filters.city && canonicalCity(property.city) !== canonicalCity(filters.city)) return false;
   if (filters.kind && property.kind !== filters.kind) return false;
   if (filters.deal && property.deal !== filters.deal) return false;
   if (filters.minPrice != null && property.price < filters.minPrice) return false;
