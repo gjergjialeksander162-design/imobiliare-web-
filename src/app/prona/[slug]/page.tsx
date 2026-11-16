@@ -8,7 +8,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import { Gallery } from "@/components/gallery";
 import { MobileActions } from "@/components/mobile-actions";
 import { PropertyCard } from "@/components/property-card";
-import { formatDate, formatLek, formatNumber, formatPrice } from "@/lib/format";
+import { formatDate, formatNumber, formatPrice } from "@/lib/format";
 import { getRepository } from "@/lib/repo";
 import { site } from "@/lib/site";
 import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
@@ -51,7 +51,7 @@ function propertyDescription(property: Property): string {
     `${KIND_LABELS[property.kind]} ${DEAL_LABELS[property.deal].toLowerCase()} në ${property.city}`,
     property.area > 0 ? `${formatNumber(property.area)} m²` : "",
     property.rooms > 0 ? `${property.rooms} dhoma` : "",
-    formatPrice(property.price, property.deal),
+    formatPrice(property.price, property.deal, property.currency),
   ].filter(Boolean);
   return `${parts.join(", ")}. ${site.name}.`;
 }
@@ -68,7 +68,7 @@ function propertyJsonLd(property: Property) {
     offers: {
       "@type": "Offer",
       price: property.price,
-      priceCurrency: "EUR",
+      priceCurrency: property.currency,
       businessFunction:
         property.deal === "qira"
           ? "http://purl.org/goodrelations/v1#LeaseOut"
@@ -113,7 +113,7 @@ export default async function PropertyPage({ params }: Props) {
 
   const pricePerSqm =
     property.area > 0
-      ? formatPrice(Math.round(property.price / property.area), "shitje")
+      ? formatPrice(Math.round(property.price / property.area), "shitje", property.currency)
       : null;
 
   const mapSrc =
@@ -159,10 +159,7 @@ export default async function PropertyPage({ params }: Props) {
             <div className="mt-6 flex flex-wrap items-end justify-between gap-4 border-y border-line py-5">
               <div>
                 <p className="font-serif text-4xl text-brand sm:text-5xl">
-                  {formatPrice(property.price, property.deal)}
-                </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  ≈ {formatLek(property.price, property.deal)}
+                  {formatPrice(property.price, property.deal, property.currency)}
                 </p>
                 {pricePerSqm && (
                   <p className="mt-1 text-xs tracking-wider text-slate-500">

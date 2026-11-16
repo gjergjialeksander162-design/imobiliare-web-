@@ -29,7 +29,9 @@
     "lat": 40.4483,
     "lng": 19.4869,
     "featured": true,
-    "createdAt": "2026-08-30T13:33:30.741Z"
+    "createdAt": "2026-08-30T13:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   },
   {
     "id": "d0e71c80-3763-40df-9ecd-2c2c51421b8e",
@@ -59,7 +61,9 @@
     "lat": 41.3183,
     "lng": 19.8187,
     "featured": true,
-    "createdAt": "2026-08-30T01:33:30.741Z"
+    "createdAt": "2026-08-30T01:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   },
   {
     "id": "56a5b4e5-4c0e-4d85-9ac2-cc7c39357bba",
@@ -89,7 +93,9 @@
     "lat": 41.3317,
     "lng": 19.8203,
     "featured": false,
-    "createdAt": "2026-08-29T01:33:30.741Z"
+    "createdAt": "2026-08-29T01:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   },
   {
     "id": "60ef47eb-6290-40f3-8879-4e5b883c952b",
@@ -119,7 +125,9 @@
     "lat": 42.0693,
     "lng": 19.5033,
     "featured": false,
-    "createdAt": "2026-08-28T13:33:30.741Z"
+    "createdAt": "2026-08-28T13:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   },
   {
     "id": "a721fc9d-ac64-4caa-a9f5-441ed2195d32",
@@ -148,7 +156,9 @@
     "lat": 41.3126,
     "lng": 19.4478,
     "featured": false,
-    "createdAt": "2026-08-28T01:33:30.741Z"
+    "createdAt": "2026-08-28T01:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   },
   {
     "id": "ff3bc954-b34f-42be-aa9b-d139fd394250",
@@ -176,6 +186,8 @@
     "lat": 41.2967,
     "lng": 19.8631,
     "featured": false,
-    "createdAt": "2026-08-27T13:33:30.741Z"
+    "createdAt": "2026-08-27T13:33:30.741Z",
+    "currency": "EUR",
+    "spotlight": false
   }
 ]

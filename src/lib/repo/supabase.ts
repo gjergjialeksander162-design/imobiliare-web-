@@ -2,6 +2,7 @@ import { applyFilters, slugify } from "@/lib/repo/filter";
 import { canonicalCity, uniqueCities } from "@/lib/text";
 import type { PropertyRepository } from "@/lib/repo/types";
 import type {
+  Currency,
   Deal,
   InquiryInput,
   Property,
@@ -16,6 +17,7 @@ interface PropertyRow {
   title: string;
   description: string | null;
   price: number;
+  currency: Currency | null;
   deal: Deal;
   kind: PropertyKind;
   city: string;
@@ -30,6 +32,7 @@ interface PropertyRow {
   lat: number | null;
   lng: number | null;
   featured: boolean | null;
+  spotlight: boolean | null;
   created_at: string;
 }
 
@@ -88,6 +91,7 @@ function toProperty(row: PropertyRow): Property {
     title: row.title,
     description: row.description ?? "",
     price: Number(row.price),
+    currency: row.currency === "ALL" ? "ALL" : "EUR",
     deal: row.deal,
     kind: row.kind,
     city: canonicalCity(row.city),
@@ -102,6 +106,7 @@ function toProperty(row: PropertyRow): Property {
     lat: row.lat,
     lng: row.lng,
     featured: row.featured ?? false,
+    spotlight: row.spotlight ?? false,
     createdAt: row.created_at,
   };
 }
@@ -112,6 +117,7 @@ function toRow(input: PropertyInput): Omit<PropertyRow, "id" | "created_at"> {
     title: input.title,
     description: input.description,
     price: input.price,
+    currency: input.currency,
     deal: input.deal,
     kind: input.kind,
     city: canonicalCity(input.city),
@@ -126,6 +132,7 @@ function toRow(input: PropertyInput): Omit<PropertyRow, "id" | "created_at"> {
     lat: input.lat,
     lng: input.lng,
     featured: input.featured,
+    spotlight: input.spotlight,
   };
 }
 
@@ -139,21 +146,17 @@ function query(filters: PropertyFilters, cityVariants: string[] = []): string {
   }
   if (filters.kind) params.append("kind", `eq.${filters.kind}`);
   if (filters.deal) params.append("deal", `eq.${filters.deal}`);
-  if (filters.minPrice != null) params.append("price", `gte.${filters.minPrice}`);
-  if (filters.maxPrice != null) params.append("price", `lte.${filters.maxPrice}`);
   if (filters.minRooms != null) params.append("rooms", `gte.${filters.minRooms}`);
   if (filters.minArea != null) params.append("area", `gte.${filters.minArea}`);
-  switch (filters.sort) {
-    case "price-asc":
-      params.set("order", "price.asc");
-      break;
-    case "price-desc":
-      params.set("order", "price.desc");
-      break;
-    default:
-      params.set("order", "created_at.desc");
-  }
+  params.set("order", "created_at.desc");
   return params.toString();
+}
+
+async function clearOtherSpotlights(keepId: string): Promise<void> {
+  await request<PropertyRow[]>(
+    `properties?spotlight=is.true&id=neq.${encodeURIComponent(keepId)}`,
+    { method: "PATCH", body: JSON.stringify({ spotlight: false }) },
+  );
 }
 
 async function uniqueSlug(base: string, excludeId?: string): Promise<string> {
@@ -189,7 +192,13 @@ export const supabaseRepository: PropertyRepository = {
     );
     const properties = rows.map(toProperty);
     // Kërkimi me tekst bëhet në memorie që "vlore" të gjejë "Vlorë" (Postgres ilike nuk injoron diakritikat).
-    return filters.q ? applyFilters(properties, { q: filters.q, sort: filters.sort }) : properties;
+    // Çmimi filtrohet/renditet në memorie sepse pronat mund të jenë në Euro ose në Lek.
+    return applyFilters(properties, {
+      q: filters.q,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      sort: filters.sort,
+    });
   },
 
   async featured(limit = 6) {
@@ -231,6 +240,7 @@ export const supabaseRepository: PropertyRepository = {
       method: "POST",
       body: JSON.stringify(row),
     });
+    if (rows[0].spotlight) await clearOtherSpotlights(rows[0].id);
     return toProperty(rows[0]);
   },
 
@@ -241,6 +251,7 @@ export const supabaseRepository: PropertyRepository = {
       `properties?id=eq.${encodeURIComponent(id)}`,
       { method: "PATCH", body: JSON.stringify(row) },
     );
+    if (rows[0].spotlight) await clearOtherSpotlights(rows[0].id);
     return toProperty(rows[0]);
   },
 

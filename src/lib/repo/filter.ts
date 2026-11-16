@@ -1,3 +1,4 @@
+import { priceInEur } from "@/lib/format";
 import { canonicalCity, matchesQuery } from "@/lib/text";
 import type { Property, PropertyFilters } from "@/lib/types";
 
@@ -22,8 +23,8 @@ function matches(property: Property, filters: PropertyFilters): boolean {
   if (filters.city && canonicalCity(property.city) !== canonicalCity(filters.city)) return false;
   if (filters.kind && property.kind !== filters.kind) return false;
   if (filters.deal && property.deal !== filters.deal) return false;
-  if (filters.minPrice != null && property.price < filters.minPrice) return false;
-  if (filters.maxPrice != null && property.price > filters.maxPrice) return false;
+  if (filters.minPrice != null && priceInEur(property) < filters.minPrice) return false;
+  if (filters.maxPrice != null && priceInEur(property) > filters.maxPrice) return false;
   if (filters.minRooms != null && property.rooms < filters.minRooms) return false;
   if (filters.minArea != null && property.area < filters.minArea) return false;
   if (filters.q) {
@@ -46,9 +47,9 @@ export function applyFilters(
   const result = properties.filter((property) => matches(property, filters));
   switch (filters.sort) {
     case "price-asc":
-      return result.sort((a, b) => a.price - b.price);
+      return result.sort((a, b) => priceInEur(a) - priceInEur(b));
     case "price-desc":
-      return result.sort((a, b) => b.price - a.price);
+      return result.sort((a, b) => priceInEur(b) - priceInEur(a));
     default:
       return result.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }

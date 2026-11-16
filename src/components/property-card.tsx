@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { IconArea, IconBath, IconBed } from "@/components/icons";
-import { formatLek, formatNumber, formatPrice } from "@/lib/format";
+import { formatNumber, formatPrice } from "@/lib/format";
 import { DEAL_LABELS, KIND_LABELS, type Property } from "@/lib/types";
 
 export function PropertyCard({
@@ -30,9 +30,8 @@ export function PropertyCard({
           {DEAL_LABELS[property.deal]}
         </span>
         <div className="absolute bottom-4 left-4 text-white drop-shadow">
-          <p className="font-serif text-2xl">{formatPrice(property.price, property.deal)}</p>
-          <p className="text-[11px] font-medium tracking-wider text-white/80">
-            ≈ {formatLek(property.price, property.deal)}
+          <p className="font-serif text-2xl">
+            {formatPrice(property.price, property.deal, property.currency)}
           </p>
         </div>
       </div>

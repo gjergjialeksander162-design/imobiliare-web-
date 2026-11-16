@@ -1,5 +1,7 @@
 export type Deal = "shitje" | "qira";
 
+export type Currency = "EUR" | "ALL";
+
 export type PropertyKind =
   | "apartament"
   | "shtepi"
@@ -14,6 +16,8 @@ export interface Property {
   title: string;
   description: string;
   price: number;
+  /** Monedha në të cilën është vendosur çmimi; në faqe shfaqet vetëm kjo. */
+  currency: Currency;
   deal: Deal;
   kind: PropertyKind;
   city: string;
@@ -28,6 +32,8 @@ export interface Property {
   lat: number | null;
   lng: number | null;
   featured: boolean;
+  /** Prona kryesore në kutinë e madhe të kryefaqes (vetëm një në të njëjtën kohë). */
+  spotlight: boolean;
   createdAt: string;
 }
 
@@ -59,6 +65,13 @@ export interface Inquiry {
 export type InquiryInput = Omit<Inquiry, "id" | "createdAt">;
 
 export const DEALS: Deal[] = ["shitje", "qira"];
+
+export const CURRENCIES: Currency[] = ["EUR", "ALL"];
+
+export const CURRENCY_LABELS: Record<Currency, string> = {
+  EUR: "Euro (€)",
+  ALL: "Lek (L)",
+};
 
 export const KINDS: PropertyKind[] = [
   "apartament",
