@@ -13,7 +13,7 @@ export const site = {
   description:
     "Agjenci imobiliare me listime të verifikuara apartamentesh, vilash, trojeve dhe ambienteve biznesi në Shqipëri.",
   phone: process.env.NEXT_PUBLIC_SITE_PHONE ?? "+355 69 858 3333",
-  email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "info@domusrealestate.app",
+  email: process.env.NEXT_PUBLIC_SITE_EMAIL ?? "domus.realestate.al@gmail.com",
   address:
     process.env.NEXT_PUBLIC_SITE_ADDRESS ?? "Rruga e Kavajës 118, Tiranë",
   hours: "Hën–Sht, 09:00–19:00",
